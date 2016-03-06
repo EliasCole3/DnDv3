@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+    <title>Node Authentication</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <style>
+        body        { padding-top:80px; word-wrap:break-word; }
+    </style>
+    <script type="text/javascript" src="js/jquery.js"></script>
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+    </div>
+
+    <div class="row">
+
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Local</h3>
+
+                    <p>
+                        <strong>id</strong>: <%= user._id %><br>
+                        <strong>username</strong>: <%= user.local.username %><br>
+                        <strong>password</strong>: <%= user.local.password %>
+                    </p>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div id='' class=''>
+		<a href="/socket-main-page" class="btn btn-default btn-md">Let's roll some dice!</a>
+
+		<div id='dm-buttons'>
+			<a href="/testing" class="btn btn-default btn-md">Take me to the testing page!</a>
+			<a href="/crud-items" class="btn btn-default btn-md">CRUD - Items</a>
+			<a href="/crud-powers" class="btn btn-default btn-md">CRUD - Powers</a>
+			<a href="/crud-creatures" class="btn btn-default btn-md">CRUD - Creatures</a>
+			<a href="/crud-logs" class="btn btn-default btn-md">CRUD - Logs</a>
+			<a href="/crud-log-entries" class="btn btn-default btn-md">CRUD - Log Entries</a>
+			<a href="/crud-player-characters" class="btn btn-default btn-md">CRUD - Player Characters</a>
+			<a href="/crud-non-player-characters" class="btn btn-default btn-md">CRUD - Non-Player Characters</a>
+			<a href="/crud-join-player-character-items" class="btn btn-default btn-md">CRUD - Join Player Character Items</a>
+			<a href="/crud-join-player-character-powers" class="btn btn-default btn-md">CRUD - Join Player Character Powers</a>
+			<a href="/crud-character-details" class="btn btn-default btn-md">CRUD - Character Details</a>
+		</div>
+    </div>
+
+
+    <div id='data-for-you' style='display: none;'>
+		<%- JSON.stringify(user) %>
+    </div>
+
+    <script type="text/javascript">
+    $(function() {
+    	if('<%-user.local.username%>' !== 'bliss') {
+    	  $("#dm-buttons").hide()
+    	} else {
+			console.log('hi me')
+    	}
+    })
+		
+    </script>
+</div>
+</body>
+</html>

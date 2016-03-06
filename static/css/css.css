@@ -1,0 +1,239 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font: 13px Helvetica, Arial; }
+html,body{height:100%;}
+
+#draggable {
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+}
+
+#wrapper {
+  /*background-color: lightblue;*/
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 0;
+}
+
+
+#top-drawer {
+  width: 100%;
+  height: 250px;
+  background-color: #9683EA;
+  overflow-y: scroll;
+}
+
+#bottom-drawer {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  height: 100px;
+  background-color: #5437E7;
+}
+
+#left-drawer {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+
+  height: 100%;
+  width: 150px;
+  background-color: #735BEE;
+}
+
+#right-drawer {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  width: 200px;
+  background-color: #735BEE;
+  overflow-y: scroll;
+}
+
+.drawer {
+  color: white;
+}
+
+.current-hp-input {
+  width: 75px !important;
+}
+
+.player-item {
+  height: 50px;
+  width: 50px;
+}
+
+.cursor {
+  width: 50px;
+  height: 25px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  /*display: none;*/
+  background-color: #D7D7D7;
+}
+
+#cursor-0 {
+  background-color: #D7D7D7;
+}
+
+#turn-counter-container {
+  width: 300px;
+  height: 485px;
+  padding-left: 15px;
+  color: #fff;
+  background-color: #070129;
+  border: solid 3px #6D685F;
+}
+
+#creature-table-container {
+  width: 300px;
+  height: 485px;
+  padding-left: 15px;
+  color: #fff;
+  background-color: #070179;
+  border: solid 3px #6D685F;
+  min-width: 300px;
+  min-height: 80px;
+}
+
+#tc-add-row {
+  float: right;
+}
+
+.temp-input {
+  width: 70px;
+  height: 30px;
+}
+
+.creature-table-status {
+  width: 150px;
+}
+
+.creature-table-hp-input{
+  width: 70px;
+}
+
+#remove-creature-table {
+  float: right;
+}
+
+.power-view {
+  width: 279px;
+  height: 330px;
+  float: left;
+  box-shadow: 0px 0px 5px 5px rgba(230,230,230,1);
+  margin-right: 10px;
+  overflow-y: overlay;
+}
+
+
+#character-filter {
+  width: 200px;
+}
+
+
+
+
+
+
+
+
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+ 
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+  border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#lines {
+    background-size: 50px 50px;    
+    background-image:repeating-linear-gradient(0deg, #000, #000 1px, transparent 1px, transparent 50px),repeating-linear-gradient(-90deg, #000, #000 1px, transparent 1px, transparent 50px);
+    height:100%;
+    width:100%;
+    opacity:0.3;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:-4;
+}
+
+
+
+
+
+
+
+
+
+
+/*
+For Drawerify
+*/
+#drawer-handle-top {
+  width: 50px;
+  margin: 0 auto;
+}
+
+/*#drawer-handle-top i {
+  background: linear-gradient(135deg, rgba(194,232,222,0.8), rgba(38,99,82,1));
+  background-size: 400% 400%;
+  animation: gradient-transition 15s ease infinite;
+}*/
+
+#drawer-handle-bottom {
+  position: fixed;
+  bottom: 0px;
+  width: 50px;
+}
+
+#drawer-handle-left {
+  position: fixed;
+  width: 50px;
+}
+
+#drawer-handle-right {
+  position: fixed;
+  width: 50px;
+}
+
+.drawer-handle i {
+  font-size: 35px;
+  opacity: 1;
+  background: linear-gradient(135deg, rgba(194,232,222,0.8), rgba(38,99,82,1));
+  background-size: 400% 400%;
+  animation: gradient-transition 15s ease infinite;
+}
+
+.drawer-handle i:hover {
+  -webkit-filter: invert(20%);
+}
+
+
+
+@keyframes gradient-transition { 
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
