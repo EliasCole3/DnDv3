@@ -1075,20 +1075,6 @@ var abc = {
     }
   },
 
-  //not currently used
-  getItems: function getItems() {
-    var deferred = $.ajax({
-      type: "GET",
-      url: abc.apiurl + "/items",
-      success: function success(data, status, jqXHR) {},
-      error: function error(jqXHR, status) {
-        console.log("getItems() Error");
-      }
-    }).promise();
-
-    return deferred;
-  },
-
   getCreature: function getCreature(creatureId) {
     var creature = abc.creatures.filter(function (creature) {
       return creature._id === creatureId;
@@ -1113,8 +1099,8 @@ var abc = {
 
   currentDynamicDivId: 1,
 
-  // apiurl: "http://localhost:8082",
-  apiurl: "http://192.241.203.33:8082",
+  apiurl: "http://localhost:8082",
+  // apiurl: "http://192.241.203.33:8082",
 
   userIsPlayer: false,
 

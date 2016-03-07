@@ -1481,18 +1481,6 @@ let abc = {
     }
   },
 
-  //not currently used
-  getItems: () => {
-    let deferred = $.ajax({
-      type: "GET",
-      url: `${abc.apiurl}/items`,
-      success: function(data, status, jqXHR) {},
-      error: function(jqXHR, status) {console.log("getItems() Error")}
-    }).promise()
-
-    return deferred
-  },
-
   getCreature: creatureId => {
     let creature = abc.creatures.filter(creature => {
       return creature._id === creatureId
@@ -1517,8 +1505,8 @@ let abc = {
 
   currentDynamicDivId: 1,
 
-  // apiurl: "http://localhost:8082",
-  apiurl: "http://192.241.203.33:8082",
+  apiurl: "http://localhost:8082",
+  // apiurl: "http://192.241.203.33:8082",
 
   userIsPlayer: false,
 
