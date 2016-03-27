@@ -383,6 +383,17 @@ let abc = {
     $("#old-character-sheets").click(e => {
       //one of the new windows with all the stuff that went into the top drawer
       // ebot.showModal("Helpful Info", abc.viewHelpfulInfo())
+
+      let options = {
+        windowId: 'old-character-sheets', 
+        content: abc.getOldCharacterSheetWindowContent(),
+        width: '1250px',
+        height: '280px'
+      }
+      abc.createWindow(options)
+      abc.handlerOldCharacterSheetWindow()
+
+
     })
 
 
@@ -409,7 +420,8 @@ let abc = {
     $("#token-window").click(e => {
       let options = {
         windowId: 'add-tokens', 
-        content: abc.getTokenWindowContent()
+        content: abc.getTokenWindowContent(),
+        width: '900px'
       }
       abc.createWindow(options)
       abc.handlerTokenWindow()
@@ -482,11 +494,22 @@ let abc = {
 
 
   createWindow: options => {
+
+    options.windowId += '-window'
+
+    if(!options.hasOwnProperty('width')) {
+      options.width = '300px'
+    }
+
+    if(!options.hasOwnProperty('height')) {
+      options.height = '485px'
+    }
+
     let htmlString = ``
 
     // create the window html
     htmlString += `
-    <div id='${options.windowId}' class='window'>
+    <div id='${options.windowId}' class='window' style='width:${options.width}; height:${options.height}'>
       <div id='window-close-${options.windowId}' class='window-close-button'><i class='glyphicon glyphicon-remove'></i></div><br>
       ${options.content}
     </div>`
@@ -612,9 +635,76 @@ let abc = {
 
   },
 
+  getOldCharacterSheetWindowContent: () => {
+    let htmlString = ``
 
+    htmlString += `<table id='player-stats-table' class="table-condensed">`
 
+    htmlString += `<tr>
+      <th>Player Name</th>
+      <th>Character Name</th>
+      <th>Current HP</th>
+      <th>Max HP</th>
+      <th>AC</th>
+      <th>Will</th>
+      <th>Reflex</th>
+      <th>To Hit AC/Will/Reflex</th>
+      <th>Damage Mod</th>
+      <th>Speed</th>
+      <th>Initiative</th>
+      <th>Action Points</th>
+      <th>Gold</th>
+      <th>Str</th>
+      <th>Con</th>
+      <th>Int</th>
+      <th>Wis</th>
+      <th>Dex</th>
+      <th>Cha</th>
+    </tr>`
 
+    abc.playerCharacters.forEach(player => {
+      if(abc.doNotInclude.indexOf(player.playerName) === -1) {
+          htmlString += `<tr>
+          <td>${player.playerName}</td>
+          <td>${player.characterName}</td>
+          <td><input id='current-hp-input-${player.playerCharacterId}' class='current-hp-input form-control' type='number' value='${player.hp}'></td>
+          <td>${player.hp}</td>
+          <td>${player.ac}</td>
+          <td>${player.will}</td>
+          <td>${player.reflex}</td>
+          <td style="text-align:center;">${player.baseToHitAc}/${player.baseToHitWill}/${player.baseToHitReflex}</td>
+          <td>${player.damageModifier}</td>
+          <td>${player.speed}</td>
+          <td>${player.initiative}</td>
+          <td>${player.actionPoints}</td>
+          <td>${player.gold}</td>
+          <td>${player.strength}</td>
+          <td>${player.constitution}</td>
+          <td>${player.intelligence}</td>
+          <td>${player.wisdom}</td>
+          <td>${player.dexterity}</td>
+          <td>${player.charisma}</td>
+
+        </tr>`
+      }
+      
+    })
+
+    htmlString += `</table>`
+
+    return htmlString
+  },
+
+  handlerOldCharacterSheetWindow: () => {
+    $(".current-hp-input").off("change")
+
+    $(".current-hp-input").on("change", e => {
+      let element = $(e.currentTarget)
+      let id = element.attr("id")
+      let val = element.val()
+      abc.socket.emit('hp changed', {id: id, val: val})
+    })
+  },
 
 
 
@@ -711,11 +801,6 @@ let abc = {
 
       <div id='powers'>
     `
-
-
-
-
-
 
     let uniqueTypes = ebot.getUniqueFields(abc.powers, 'type')
 
@@ -868,11 +953,8 @@ let abc = {
     <br> Level 7 - Power point
     <br> Level 8 - 2 Defense points
     <br> Level 9 - 2 x To hit +1
-    <br> Level 10 - +1 Action point, 1 Power point, +3 Ability Score, Choose: Initiative +4, Speed +1, +3 Base damage
-
-    
+    <br> Level 10 - +1 Action point, 1 Power point, +3 Ability Score, Choose: Initiative +4, Speed +1, +3 Base damage    
     `
-
 
     return htmlString
   },

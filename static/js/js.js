@@ -285,6 +285,15 @@ var abc = {
     $("#old-character-sheets").click(function (e) {
       //one of the new windows with all the stuff that went into the top drawer
       // ebot.showModal("Helpful Info", abc.viewHelpfulInfo())
+
+      var options = {
+        windowId: 'old-character-sheets',
+        content: abc.getOldCharacterSheetWindowContent(),
+        width: '1250px',
+        height: '280px'
+      };
+      abc.createWindow(options);
+      abc.handlerOldCharacterSheetWindow();
     });
   },
 
@@ -307,7 +316,8 @@ var abc = {
     $("#token-window").click(function (e) {
       var options = {
         windowId: 'add-tokens',
-        content: abc.getTokenWindowContent()
+        content: abc.getTokenWindowContent(),
+        width: '900px'
       };
       abc.createWindow(options);
       abc.handlerTokenWindow();
@@ -347,10 +357,21 @@ var abc = {
   },
 
   createWindow: function createWindow(options) {
+
+    options.windowId += '-window';
+
+    if (!options.hasOwnProperty('width')) {
+      options.width = '300px';
+    }
+
+    if (!options.hasOwnProperty('height')) {
+      options.height = '485px';
+    }
+
     var htmlString = "";
 
     // create the window html
-    htmlString += "\n    <div id='" + options.windowId + "' class='window'>\n      <div id='window-close-" + options.windowId + "' class='window-close-button'><i class='glyphicon glyphicon-remove'></i></div><br>\n      " + options.content + "\n    </div>";
+    htmlString += "\n    <div id='" + options.windowId + "' class='window' style='width:" + options.width + "; height:" + options.height + "'>\n      <div id='window-close-" + options.windowId + "' class='window-close-button'><i class='glyphicon glyphicon-remove'></i></div><br>\n      " + options.content + "\n    </div>";
 
     // add the window to the page
     $('#wrapper').append(htmlString);
@@ -467,6 +488,35 @@ var abc = {
     });
   },
 
+  getOldCharacterSheetWindowContent: function getOldCharacterSheetWindowContent() {
+    var htmlString = "";
+
+    htmlString += "<table id='player-stats-table' class=\"table-condensed\">";
+
+    htmlString += "<tr>\n      <th>Player Name</th>\n      <th>Character Name</th>\n      <th>Current HP</th>\n      <th>Max HP</th>\n      <th>AC</th>\n      <th>Will</th>\n      <th>Reflex</th>\n      <th>To Hit AC/Will/Reflex</th>\n      <th>Damage Mod</th>\n      <th>Speed</th>\n      <th>Initiative</th>\n      <th>Action Points</th>\n      <th>Gold</th>\n      <th>Str</th>\n      <th>Con</th>\n      <th>Int</th>\n      <th>Wis</th>\n      <th>Dex</th>\n      <th>Cha</th>\n    </tr>";
+
+    abc.playerCharacters.forEach(function (player) {
+      if (abc.doNotInclude.indexOf(player.playerName) === -1) {
+        htmlString += "<tr>\n          <td>" + player.playerName + "</td>\n          <td>" + player.characterName + "</td>\n          <td><input id='current-hp-input-" + player.playerCharacterId + "' class='current-hp-input form-control' type='number' value='" + player.hp + "'></td>\n          <td>" + player.hp + "</td>\n          <td>" + player.ac + "</td>\n          <td>" + player.will + "</td>\n          <td>" + player.reflex + "</td>\n          <td style=\"text-align:center;\">" + player.baseToHitAc + "/" + player.baseToHitWill + "/" + player.baseToHitReflex + "</td>\n          <td>" + player.damageModifier + "</td>\n          <td>" + player.speed + "</td>\n          <td>" + player.initiative + "</td>\n          <td>" + player.actionPoints + "</td>\n          <td>" + player.gold + "</td>\n          <td>" + player.strength + "</td>\n          <td>" + player.constitution + "</td>\n          <td>" + player.intelligence + "</td>\n          <td>" + player.wisdom + "</td>\n          <td>" + player.dexterity + "</td>\n          <td>" + player.charisma + "</td>\n\n        </tr>";
+      }
+    });
+
+    htmlString += "</table>";
+
+    return htmlString;
+  },
+
+  handlerOldCharacterSheetWindow: function handlerOldCharacterSheetWindow() {
+    $(".current-hp-input").off("change");
+
+    $(".current-hp-input").on("change", function (e) {
+      var element = $(e.currentTarget);
+      var id = element.attr("id");
+      var val = element.val();
+      abc.socket.emit('hp changed', { id: id, val: val });
+    });
+  },
+
   changeBackground: function changeBackground(background) {
     if (background !== "blank") {
 
@@ -580,7 +630,7 @@ var abc = {
   viewHelpfulInfo: function viewHelpfulInfo() {
     var htmlString = "";
 
-    htmlString += "\n    <img src='images/miscellaneous/ability-modifiers.png'>\n    <br><br>\n    <img src='images/miscellaneous/skill-table.jpg'>\n    <br><br>\n\n    <br> Level 2 - 2 Defense points, +1 Base damage\n    <br> Level 3 - Power point + 2 x To hit +1\n    <br> Level 4 - Base damage +2\n    <br> Level 5 - +3 Ability Score, Power point\n    <br> Level 6 - 2 Defense points, +1 Base damage\n    <br> Level 7 - Power point\n    <br> Level 8 - 2 Defense points\n    <br> Level 9 - 2 x To hit +1\n    <br> Level 10 - +1 Action point, 1 Power point, +3 Ability Score, Choose: Initiative +4, Speed +1, +3 Base damage\n\n    \n    ";
+    htmlString += "\n    <img src='images/miscellaneous/ability-modifiers.png'>\n    <br><br>\n    <img src='images/miscellaneous/skill-table.jpg'>\n    <br><br>\n\n    <br> Level 2 - 2 Defense points, +1 Base damage\n    <br> Level 3 - Power point + 2 x To hit +1\n    <br> Level 4 - Base damage +2\n    <br> Level 5 - +3 Ability Score, Power point\n    <br> Level 6 - 2 Defense points, +1 Base damage\n    <br> Level 7 - Power point\n    <br> Level 8 - 2 Defense points\n    <br> Level 9 - 2 x To hit +1\n    <br> Level 10 - +1 Action point, 1 Power point, +3 Ability Score, Choose: Initiative +4, Speed +1, +3 Base damage    \n    ";
 
     return htmlString;
   },
