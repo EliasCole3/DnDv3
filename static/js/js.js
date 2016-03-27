@@ -6,75 +6,15 @@ $(function () {
   // ebot.updateDocumentation(abc)
 });
 
-/**
- * initialize()
- * addPlayerCursorDivs()
- * handlerMouseMove()
- * updateCursorImage()
- * setCurrentPlayerCharacterId()
- * assignInitialHandlers()
- * handlersSocketEventReceived()
- * retrieveInitialModels()
- *
- * fillTopDrawer()
- * getTopDrawerHtml()
- * handlerTopDrawerContents()
- * 
- * fillBottomDrawer()
- * getBottomDrawerHtml()
- * handlerBottomDrawerContents()
- *
- * toggleCursorsVisibility()
- * 
- * fillLeftDrawer()
- * getLeftDrawerHtml()
- * handlerLeftDrawerContents()
- * 
- * fillRightDrawer()
- * getRightDrawerHtmlDM()
- * getRightDrawerHtmlPlayer()
- * handlerRightDrawerContents()
- * 
- * changeBackground()
- * changeHp()
- * viewAllPowers()
- * addTokenItem()
- * addTokenPlayerCharacter()
- * addTokenCreature()
- * makeDrawers()
- * playSound()
- * draggableOptions
- * draggableOptionsToken
- * resizableOptions
- * getItems()
- * 
- * dragDelay
- * dragCounter
- * socket
- * currentDynamicDivId
- * apiurl
- * userIsPlayer
- * userIsDM
- * currentPlayerCharacterId
- * items
- * powers
- * creatures
- * playerCharacters
- * nonPlayerCharacters
- * joinPlayerCharacterItems
- * joinPlayerCharacterPowers
- * characterDetails
- * cursorDelay
- * cursorsVisible
- */
 var abc = {
 
   initialize: function initialize() {
     abc.socket = io();
-    abc.assignInitialHandlers();
+    abc.handlersSocketEventReceived();
+    abc.makeRightDrawer();
 
-    //this is a try block because the data doesn't always parse right, if the page is refreshed
-    //instead of newly navigated to.
+    // this is a try block because the data doesn't always parse right, if the page is refreshed
+    // instead of newly navigated to.
     try {
       var user = JSON.parse($("#data-for-you").html());
       console.log(user);
@@ -93,14 +33,14 @@ var abc = {
       }
 
       if (!abc.userIsDM && !abc.userIsPlayer) {
-        alert("whoooo aaaarrrre yoooouuuu? 0.o");
+        alert("Unauthorized user detected. Self destruct sequence initiated.");
       }
 
       $.when.apply($, abc.retrieveInitialModels()).done(function () {
-        abc.fillTopDrawer();
+        // abc.fillTopDrawer()
         abc.fillRightDrawer();
-        abc.fillLeftDrawer();
-        abc.fillBottomDrawer();
+        // abc.fillLeftDrawer()
+        // abc.fillBottomDrawer()
       });
 
       abc.addPlayerCursorDivs();
@@ -158,14 +98,9 @@ var abc = {
         abc.currentPlayerCharacterId = 0;
         break;
       default:
-        console.log("setCurrentPlayerCharacterId() fell out of switch statement. Fix me plox. Current user:");
+        console.log("setCurrentPlayerCharacterId() fell out of switch statement. Current user:");
         console.log(user);
     }
-  },
-
-  assignInitialHandlers: function assignInitialHandlers() {
-    abc.handlersSocketEventReceived();
-    abc.makeDrawers();
   },
 
   handlersSocketEventReceived: function handlersSocketEventReceived() {
@@ -217,7 +152,7 @@ var abc = {
     });
 
     abc.socket.on('reload top drawer', function () {
-      abc.reloadTopDrawer();
+      // abc.reloadTopDrawer()
     });
 
     abc.socket.on('core', function (obj) {
@@ -282,110 +217,6 @@ var abc = {
     return deferreds;
   },
 
-  fillTopDrawer: function fillTopDrawer() {
-    if (abc.userIsDM) {
-      $("#top-drawer-contents").html(abc.getTopDrawerHtmlDM());
-      abc.handlerTopDrawerContents();
-    } else if (abc.userIsPlayer) {
-      $("#top-drawer-contents").html(abc.getTopDrawerHtml());
-      abc.handlerTopDrawerContents();
-    } else {
-      $("#top-drawer-contents").html("Unauthorized user detected!");
-    }
-  },
-
-  getTopDrawerHtml: function getTopDrawerHtml() {
-    var htmlString = "<table id='player-stats-table' class=\"table-condensed\">";
-
-    htmlString += "<tr>\n      <th>Player Name</th>\n      <th>Character Name</th>\n      <th>Current HP</th>\n      <th>Max HP</th>\n      <th>AC</th>\n      <th>Will</th>\n      <th>Reflex</th>\n      <th>To Hit AC/Will/Reflex</th>\n      <th>Damage Mod</th>\n      <th>Speed</th>\n      <th>Initiative</th>\n      <th>Action Points</th>\n      <th>Gold</th>\n      <th>Str</th>\n      <th>Con</th>\n      <th>Int</th>\n      <th>Wis</th>\n      <th>Dex</th>\n      <th>Cha</th>\n    </tr>";
-
-    abc.playerCharacters.forEach(function (player) {
-      if (abc.doNotInclude.indexOf(player.playerName) === -1) {
-        htmlString += "<tr>\n          <td>" + player.playerName + "</td>\n          <td>" + player.characterName + "</td>\n          <td><input id='current-hp-input-" + player.playerCharacterId + "' class='current-hp-input form-control' type='number' value='" + player.hp + "'></td>\n          <td>" + player.hp + "</td>\n          <td>" + player.ac + "</td>\n          <td>" + player.will + "</td>\n          <td>" + player.reflex + "</td>\n          <td style=\"text-align:center;\">" + player.baseToHitAc + "/" + player.baseToHitWill + "/" + player.baseToHitReflex + "</td>\n          <td>" + player.damageModifier + "</td>\n          <td>" + player.speed + "</td>\n          <td>" + player.initiative + "</td>\n          <td>" + player.actionPoints + "</td>\n          <td>" + player.gold + "</td>\n          <td>" + player.strength + "</td>\n          <td>" + player.constitution + "</td>\n          <td>" + player.intelligence + "</td>\n          <td>" + player.wisdom + "</td>\n          <td>" + player.dexterity + "</td>\n          <td>" + player.charisma + "</td>\n\n        </tr>";
-      }
-    });
-
-    htmlString += "</table>";
-
-    return htmlString;
-  },
-
-  getTopDrawerHtmlDM: function getTopDrawerHtmlDM() {
-    var htmlString = "<table id='player-stats-table' class=\"table-condensed\">";
-
-    htmlString += "<tr>\n      <th>Player Name</th>\n      <th>Character Name</th>\n      <th>Current HP</th>\n      <th>Max HP</th>\n      <th>AC</th>\n      <th>Will</th>\n      <th>Reflex</th>\n      <th>To Hit AC/Will/Reflex</th>\n      <th>Damage Mod</th>\n      <th>Speed</th>\n      <th>Initiative</th>\n      <th>Action Points</th>\n      <th>Gold</th>\n      <th>Str</th>\n      <th>Con</th>\n      <th>Int</th>\n      <th>Wis</th>\n      <th>Dex</th>\n      <th>Cha</th>\n    </tr>";
-
-    abc.playerCharacters.forEach(function (player) {
-
-      if (abc.doNotInclude.indexOf(player.playerName) === -1) {
-        htmlString += "<tr player-character-id=" + player.playerCharacterId + ">\n          <td>" + player.playerName + "</td>\n          <td>" + player.characterName + "</td>\n          <td><input id='current-hp-input-" + player.playerCharacterId + "' class='current-hp-input form-control' type='number' value='" + player.hp + "'></td>\n          <td>" + player.hp + "</td>\n          <td>" + player.ac + "</td>\n          <td>" + player.will + "</td>\n          <td>" + player.reflex + "</td>\n          <td style=\"text-align:center;\">" + player.baseToHitAc + "/" + player.baseToHitWill + "/" + player.baseToHitReflex + "</td>\n          <td>" + player.damageModifier + "</td>\n          <td>" + player.speed + "</td>\n          <td>" + player.initiative + "</td>\n          <td>" + player.actionPoints + "</td>\n          <td>" + player.gold + "</td>\n          <td>" + player.strength + "</td>\n          <td>" + player.constitution + "</td>\n          <td>" + player.intelligence + "</td>\n          <td>" + player.wisdom + "</td>\n          <td>" + player.dexterity + "</td>\n          <td>" + player.charisma + "</td>\n\n        </tr>";
-      }
-    });
-
-    htmlString += "</table>";
-
-    return htmlString;
-  },
-
-  handlerTopDrawerContents: function handlerTopDrawerContents() {
-    $(".current-hp-input").off("change");
-
-    $(".current-hp-input").on("change", function (e) {
-      var element = $(e.currentTarget);
-      var id = element.attr("id");
-      var val = element.val();
-      abc.socket.emit('hp changed', { id: id, val: val });
-    });
-  },
-
-  fillBottomDrawer: function fillBottomDrawer() {
-    if (abc.userIsPlayer) {
-      $("#bottom-drawer-contents").html(abc.getBottomDrawerHtml());
-      abc.handlerBottomDrawerContents();
-    } else {
-      $("#bottom-drawer-contents").html("Unauthorized user detected!");
-    }
-  },
-
-  getBottomDrawerHtml: function getBottomDrawerHtml() {
-    var htmlString = "";
-
-    if (abc.userIsPlayer && !abc.userIsDM) {
-      htmlString += "";
-    }
-
-    if (abc.userIsDM) {
-      htmlString += "\n        <button id='toggle-cursor-visibility' class='btn btn-md btn-info'>toggle cursors</button>\n        <button id='reload-top-drawer' class='btn btn-md btn-info'>reload top drawer</button>\n        <button id='create-turn-counter' class='btn btn-md btn-info'>Create Turn Counter</button>\n        <button id='create-creature-table' class='btn btn-md btn-info'>Create Creature Table</button>\n      ";
-    }
-
-    return htmlString;
-  },
-
-  handlerBottomDrawerContents: function handlerBottomDrawerContents() {
-    $("#toggle-cursor-visibility").on("click", function (e) {
-      abc.cursorsVisible = !abc.cursorsVisible;
-      abc.socket.emit('cursors toggle visibility', { cursorsVisible: abc.cursorsVisible });
-    });
-
-    $("#reload-top-drawer").on("click", function (e) {
-      abc.socket.emit('reload top drawer');
-    });
-
-    $("#create-turn-counter").on("click", function (e) {
-      abc.socket.emit('core', { event: 'create-turn-counter' });
-    });
-
-    $("#create-creature-table").on("click", function (e) {
-      abc.createCreatureTable();
-    });
-  },
-
-  reloadTopDrawer: function reloadTopDrawer() {
-    ebot.retrieveEntity(abc, "playerCharacters").then(function () {
-      abc.fillTopDrawer();
-    });
-  },
-
   toggleCursorsVisibility: function toggleCursorsVisibility(cursorsVisible) {
     if (!cursorsVisible) {
       $(".cursor").velocity({ opacity: 0 }, { duration: 1000 }).velocity({ display: "none" }, { duration: 0 });
@@ -394,124 +225,28 @@ var abc = {
     }
   },
 
-  fillLeftDrawer: function fillLeftDrawer() {
-    if (abc.userIsPlayer) {
-      $("#left-drawer-contents").html(abc.getLeftDrawerHtml());
-      abc.handlerLeftDrawerContents();
-    } else {
-      $("#left-drawer-contents").html("Unauthorized user detected!");
-    }
-  },
-
-  getLeftDrawerHtml: function getLeftDrawerHtml() {
-    var htmlString = "\n    <button id='toggle-lines' class='btn btn-md btn-info'>Toggle Lines</button> \n    <br><br>\n    <button id='show-all-powers' class='btn btn-md btn-info'>Show All Powers</button>\n    <br><br>\n    <button id='show-all-powers-improved' class='btn btn-md btn-info'>Show All Powers+</button>\n    <br><br>\n    <button id='helpful-info' class='btn btn-md btn-info'>Helpful Info</button>\n    \n    ";
-
-    if (abc.userIsPlayer && !abc.userIsDM) {
-      htmlString += "\n      <br><br><button id='show-backstory' class='btn btn-md btn-info'>Show My Backstory</button>\n      <br><br><button id='show-my-powers' class='btn btn-md btn-info'>Show My Powers</button>\n      ";
-    }
-
-    if (abc.userIsDM) {
-      htmlString += "<br><br>\n      <select id='background-select' data-placeholder='Choose a background...'>\n        <option value=''></option>\n        <option value='blank'>Blank</option>\n        <option value='zone-map.png'>Zone Map</option>\n        <option value='river.jpg'>River</option>\n        <option value='twooth-library.png'>Twooth Library</option>\n        <option value='slime-cave.png'>Slime Cave</option>\n        <option value='andora-tavern.jpg'>Andora Tavern</option>\n        <option value='andora-gates.png'>Andora Gates</option>\n        <option value='andora.jpg'>Andora</option>\n        <option value='brement.jpg'>Brement</option>\n        <option value='dark-forest-1.jpg'>Dark Forest</option>\n        <option value='desert-1.JPG'>Desert 1</option>\n        <option value='desert-statue.jpg'>Desert Statue</option>\n        <option value='dunkar.jpg'>Dunkar</option>\n        <option value='forest-path-1.jpg'>Forest Path 1</option>\n        <option value='forest-path-2.jpg'>Forest Path 2</option>\n        <option value='forest-1.JPG'>Forest 1</option>\n        <option value='plains-1.jpg'>Plains 1</option>\n        <option value='plains-2.jpg'>Plains 2</option>\n        <option value='spider-den.jpg'>Spider Den</option>\n        <option value='twooth.jpg'>Twooth</option>\n        <option value='ameretis-flashback-1.jpg'>Flashback 1</option>\n      </select>\n      ";
-    }
-
-    return htmlString;
-  },
-
-  handlerLeftDrawerContents: function handlerLeftDrawerContents() {
-    $("#toggle-lines").click(function (e) {
-      if ($("#lines").css("opacity") === "0.3") {
-        $("#lines").velocity({ opacity: "0" });
-      } else {
-        $("#lines").velocity({ opacity: "0.3" });
-      }
-    });
-
-    $("#show-all-powers").click(function (e) {
-      ebot.showModal("All Powers", abc.viewAllPowers());
-    });
-
-    $("#show-all-powers-improved").click(function (e) {
-      ebot.showModal("All Powers+", abc.viewAllPowersImproved());
-      abc.handlerAllPowersImproved();
-    });
-
-    $("#helpful-info").click(function (e) {
-      ebot.showModal("Helpful Info", abc.viewHelpfulInfo());
-    });
-
-    $("#background-select").chosen(ebot.chosenOptions).change(function (e) {
-      var element = $(e.currentTarget);
-      abc.changeBackground(element.val());
-      abc.socket.emit('background changed', { background: element.val() });
-    });
-
-    $('#background_select_chosen').css('width', '100%');
-
-    $("#show-backstory").click(function (e) {
-      var detailText = abc.characterDetails.filter(function (detail) {
-        return detail.playerCharacterId == abc.currentPlayerCharacterId;
-      })[0].backstory;
-
-      // detailText = `<pre>${detailText}</pre>`
-
-      detailText = "<div style=\"white-space: pre-wrap;\">" + detailText + "</div>";
-
-      ebot.showModal("Backstory", detailText);
-    });
-
-    $("#show-my-powers").click(function (e) {
-      var htmlString = "";
-
-      var relevantPowerJoins = abc.joinPlayerCharacterPowers.filter(function (join) {
-        return join.playerCharacterId == abc.currentPlayerCharacterId;
-      });
-
-      relevantPowerJoins.forEach(function (join) {
-        var relevantPower = abc.powers.filter(function (power) {
-          return power.powerId == join.powerId;
-        })[0];
-
-        htmlString += "\n        <div class='power-view'>\n\n          <h4>" + relevantPower.name + "</h4>\n          Type: " + relevantPower.type + " <br>\n          Attack Type: " + relevantPower.attackType + " <br>\n          Damage: " + relevantPower.damage + " <br>\n          Effect: " + relevantPower.effect + " <br>\n          Description: " + relevantPower.description + " <br>\n          Flavor: " + relevantPower.flavorText + " <br>\n          Upgrade Effects: " + relevantPower.upgrade + " <br>\n\n        </div><br><br>";
-      });
-
-      ebot.showModal("My Powers", htmlString);
-    });
-  },
-
   fillRightDrawer: function fillRightDrawer() {
     if (abc.userIsDM) {
       $("#right-drawer-contents").html(abc.getRightDrawerHtmlDM());
-      abc.handlerRightDrawerContents();
+      abc.handlerRightDrawerContentsDM();
     } else if (abc.userIsPlayer) {
       $("#right-drawer-contents").html(abc.getRightDrawerHtmlPlayer());
+      abc.handlerRightDrawerContentsPlayer();
     } else {
       $("#right-drawer-contents").html("Unauthorized user detected!");
     }
   },
 
-  getRightDrawerHtmlDM: function getRightDrawerHtmlDM() {
+  getRightDrawerHtmlCommon: function getRightDrawerHtmlCommon() {
     var htmlString = "";
 
-    abc.items.forEach(function (item) {
-      htmlString += "<button class='add-item-button' item-id='" + item._id + "' item-image-filename='" + item.imageFilename + "'><img src='images/items/" + item.imageFilename + "'></button>";
-    });
+    htmlString += "\n    <button id='toggle-lines' class='btn btn-md btn-info'>Toggle Lines</button> \n    <br><br>\n\n\n\n    ";
 
-    htmlString += "<br><br><br>";
+    return htmlString;
+  },
 
-    abc.playerCharacters.forEach(function (pc) {
-      htmlString += "<button class='add-player-character-button' player-character-id='" + pc._id + "' player-character-image-filename='" + pc.imageFilename + "'><img src='/images/player-characters/" + pc.imageFilename + "'></button>";
-    });
-
-    htmlString += "<br><br><br>";
-
-    abc.creatures.forEach(function (creature) {
-      htmlString += "<button class='add-creature-button' creature-id='" + creature._id + "' creature-image-filename='" + creature.imageFilename + "'><img src='/images/creatures/" + creature.imageFilename + "'></button>";
-    });
-
-    htmlString += "<br><br><br>";
-
-    // add-custom-token
-    htmlString += "\n      <button class='add-custom-token' image-filename='test.png' token-height='100' token-width='100' opacity='.3'><img height='50' width='50' src='/images/custom/test.png'></button> <br>\n      blizzard: <button class='add-custom-token' image-filename='blizzard.png' token-height='150' token-width='150' opacity='.5'><img height='50' width='50' src='/images/custom/blizzard.png'></button> <br>\n      caution: <button class='add-custom-token' image-filename='caution.png' token-height='100' token-width='100' opacity='.5'><img height='50' width='50' src='/images/custom/caution.png'></button> <br>\n      sorrow: <button class='add-custom-token' image-filename='sorrow.png' token-height='150' token-width='150' opacity='.5'><img height='50' width='50' src='/images/custom/sorrow.png'></button> <br>\n      heals: <button class='add-custom-token' image-filename='green3.png' token-height='150' token-width='150' opacity='.5'><img height='50' width='50' src='/images/custom/green3.png'></button>\n    ";
+  getRightDrawerHtmlDM: function getRightDrawerHtmlDM() {
+    var htmlString = "";
 
     return htmlString;
   },
@@ -519,109 +254,14 @@ var abc = {
   getRightDrawerHtmlPlayer: function getRightDrawerHtmlPlayer() {
     var htmlString = "";
 
-    var relevantItemJoins = abc.joinPlayerCharacterItems.filter(function (join) {
-      return join.playerCharacterId == abc.currentPlayerCharacterId;
-    });
-
-    relevantItemJoins.forEach(function (join) {
-      var relevantItem = abc.items.filter(function (item) {
-        return item.itemId == join.itemId;
-      })[0];
-
-      htmlString += "<img src='images/items/" + relevantItem.imageFilename + "' class='player-item'> x " + join.count + "<br>";
-    });
-
-    var currentPlayerCharacter = abc.playerCharacters.filter(function (pc) {
-      return pc.playerCharacterId == abc.currentPlayerCharacterId;
-    })[0];
-
-    var items = currentPlayerCharacter.items.split(', ');
-    items.forEach(function (item) {
-      htmlString += "<br>" + item;
-    });
-
     return htmlString;
   },
 
-  handlerRightDrawerContents: function handlerRightDrawerContents() {
+  handlerRightDrawerContentsCommon: function handlerRightDrawerContentsCommon() {},
 
-    if (abc.userIsDM) {
-      $(".add-item-button").click(function (e) {
-        var button = $(e.currentTarget);
-        var imageFilename = button.attr("item-image-filename");
-        var ranTop = ebot.getRandomInt(2, 10) * 50;
-        var ranLeft = ebot.getRandomInt(2, 10) * 50;
-        abc.addTokenItem(imageFilename, ranTop, ranLeft);
+  handlerRightDrawerContentsDM: function handlerRightDrawerContentsDM() {},
 
-        var emitObj = {
-          imageFilename: imageFilename,
-          ranTop: ranTop,
-          ranLeft: ranLeft
-        };
-
-        abc.socket.emit('item token added', emitObj);
-      });
-
-      $(".add-player-character-button").click(function (e) {
-        var button = $(e.currentTarget);
-        var imageFilename = button.attr("player-character-image-filename");
-        var ranTop = ebot.getRandomInt(2, 10) * 50;
-        var ranLeft = ebot.getRandomInt(2, 10) * 50;
-        abc.addTokenPlayerCharacter(imageFilename, ranTop, ranLeft);
-
-        var emitObj = {
-          imageFilename: imageFilename,
-          ranTop: ranTop,
-          ranLeft: ranLeft
-        };
-
-        abc.socket.emit('player character token added', emitObj);
-      });
-
-      $(".add-creature-button").click(function (e) {
-        var button = $(e.currentTarget);
-        var imageFilename = button.attr("creature-image-filename");
-        var id = button.attr("creature-id");
-        var ranTop = ebot.getRandomInt(2, 10) * 50;
-        var ranLeft = ebot.getRandomInt(2, 10) * 50;
-        abc.addTokenCreature(imageFilename, ranTop, ranLeft, id);
-
-        var emitObj = {
-          imageFilename: imageFilename,
-          ranTop: ranTop,
-          ranLeft: ranLeft,
-          id: id
-        };
-
-        abc.socket.emit('creature token added', emitObj);
-      });
-
-      $(".add-custom-token").click(function (e) {
-        var button = $(e.currentTarget);
-        var imageFilename = button.attr("image-filename");
-        var ranTop = ebot.getRandomInt(2, 10) * 50;
-        var ranLeft = ebot.getRandomInt(2, 10) * 50;
-        var height = button.attr("token-height");
-        var width = button.attr("token-width");
-        var opacity = button.attr("opacity");
-        // abc.addCustomToken(imageFilename, ranTop, ranLeft, height, width)
-
-        var emitObj = {
-          event: 'add-custom-token',
-          imageFilename: imageFilename,
-          ranTop: ranTop,
-          ranLeft: ranLeft,
-          height: height,
-          width: width,
-          opacity: opacity
-        };
-
-        abc.toSocket(emitObj);
-      });
-    } else if (abc.userIsPlayer) {
-      $("#right-drawer-contents").html(abc.getRightDrawerHtmlPlayer());
-    } else {}
-  },
+  handlerRightDrawerContentsPlayer: function handlerRightDrawerContentsPlayer() {},
 
   changeBackground: function changeBackground(background) {
     if (background !== "blank") {
@@ -808,34 +448,12 @@ var abc = {
     abc.currentDynamicDivId++;
   },
 
-  makeDrawers: function makeDrawers() {
-    var opacity = 0.9;
-    ebot.drawerify({
-      fromThe: "top",
-      selector: "#top-drawer",
-      contents: "#top-drawer-contents",
-      opacity: opacity
-    });
-
-    ebot.drawerify({
-      fromThe: "left",
-      selector: "#left-drawer",
-      contents: "#left-drawer-contents",
-      opacity: opacity
-    });
-
-    ebot.drawerify({
-      fromThe: "bottom",
-      selector: "#bottom-drawer",
-      contents: "#bottom-drawer-contents",
-      opacity: opacity
-    });
-
-    ebot.drawerify({
+  makeRightDrawer: function makeRightDrawer() {
+    abc.drawerify({
       fromThe: "right",
       selector: "#right-drawer",
       contents: "#right-drawer-contents",
-      opacity: opacity
+      opacity: 0.9
     });
   },
 
@@ -1089,6 +707,49 @@ var abc = {
 
   deepCopy: function deepCopy(obj) {
     return JSON.parse(JSON.stringify(obj));
+  },
+
+  drawerify: function drawerify(options) {
+    var drawer = $(options.selector);
+    var drawerContents = $(options.contents);
+    var drawerVisible = false;
+    var drawerHeight = drawer.height();
+    var drawerWidth = drawer.width();
+
+    drawer.after("<div id='drawer-handle-right' class='drawer-handle' style='top: " + (drawerHeight - drawerHeight * 0.1) + "px;right: 0px'><i class='glyphicon glyphicon-chevron-left'></i></div>").css("opacity", 0).css("width", "0px");
+
+    drawerContents.css("opacity", 0).css("display", "none");
+
+    var drawerHandleContainer = $("#drawer-handle-right");
+    var drawerHandle = $("#drawer-handle-right i");
+
+    $("#drawer-handle-right i").click(function () {
+      if (!drawerVisible) {
+        drawer.velocity({
+          width: drawerWidth + "px",
+          opacity: options.opacity
+        }, {
+          complete: function complete(elements) {
+            drawerContents.css("display", "block");
+            drawerContents.velocity({ opacity: options.opacity });
+          }
+        });
+        drawerHandle.removeClass("glyphicon-chevron-left").addClass("glyphicon-chevron-right").velocity({
+          right: drawerWidth + "px"
+        });
+        drawerVisible = true;
+      } else {
+        drawerContents.css("opacity", 0).css("display", "none");
+        drawer.velocity({
+          width: "0px",
+          opacity: 0
+        });
+        drawerHandle.removeClass("glyphicon-chevron-right").addClass("glyphicon-chevron-left").velocity({
+          right: "0px"
+        });
+        drawerVisible = false;
+      }
+    });
   },
 
   dragDelay: 1,
