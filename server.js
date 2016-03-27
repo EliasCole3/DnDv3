@@ -126,10 +126,6 @@ io.on('connection', function(socket) {
     io.emit('cursors toggle visibility', emitObj)
   })
 
-  socket.on('reload top drawer', function() {
-    io.emit('reload top drawer')
-  })
-
   socket.on('core', function(obj) {
     io.emit('core', obj)
   })

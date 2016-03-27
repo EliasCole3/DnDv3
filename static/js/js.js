@@ -151,10 +151,6 @@ var abc = {
       abc.cursorsVisible = emitObj.cursorsVisible;
     });
 
-    abc.socket.on('reload top drawer', function () {
-      // abc.reloadTopDrawer()
-    });
-
     abc.socket.on('core', function (obj) {
       //branching logic based on what is in the object
 
@@ -240,28 +236,236 @@ var abc = {
   getRightDrawerHtmlCommon: function getRightDrawerHtmlCommon() {
     var htmlString = "";
 
-    htmlString += "\n    <button id='toggle-lines' class='btn btn-md btn-info'>Toggle Lines</button> \n    <br><br>\n\n\n\n    ";
+    htmlString += "\n    <button id='toggle-lines' class='btn btn-md btn-info'>Toggle Lines</button> \n    <br><br>\n\n    <button id='show-all-powers' class='btn btn-md btn-info'>Show All Powers</button>\n    <br><br>\n\n    <button id='show-all-powers-improved' class='btn btn-md btn-info'>Show All Powers+</button>\n    <br><br>\n\n    <button id='helpful-info' class='btn btn-md btn-info'>Helpful Info</button>\n    <br><br>\n\n    <button id='old-character-sheets' class='btn btn-md btn-info'>Old Character Sheets</button>\n    <br><br>\n\n\n    ";
 
     return htmlString;
   },
 
   getRightDrawerHtmlDM: function getRightDrawerHtmlDM() {
     var htmlString = "";
+    htmlString += abc.getRightDrawerHtmlCommon();
+
+    htmlString += "\n    <select id='background-select' data-placeholder='Choose a background...'>\n      <option value=''></option>\n      <option value='blank'>Blank</option>\n      <option value='zone-map.png'>Zone Map</option>\n      <option value='river.jpg'>River</option>\n      <option value='twooth-library.png'>Twooth Library</option>\n      <option value='slime-cave.png'>Slime Cave</option>\n      <option value='andora-tavern.jpg'>Andora Tavern</option>\n      <option value='andora-gates.png'>Andora Gates</option>\n      <option value='andora.jpg'>Andora</option>\n      <option value='brement.jpg'>Brement</option>\n      <option value='dark-forest-1.jpg'>Dark Forest</option>\n      <option value='desert-1.JPG'>Desert 1</option>\n      <option value='desert-statue.jpg'>Desert Statue</option>\n      <option value='dunkar.jpg'>Dunkar</option>\n      <option value='forest-path-1.jpg'>Forest Path 1</option>\n      <option value='forest-path-2.jpg'>Forest Path 2</option>\n      <option value='forest-1.JPG'>Forest 1</option>\n      <option value='plains-1.jpg'>Plains 1</option>\n      <option value='plains-2.jpg'>Plains 2</option>\n      <option value='spider-den.jpg'>Spider Den</option>\n      <option value='twooth.jpg'>Twooth</option>\n      <option value='ameretis-flashback-1.jpg'>Flashback 1</option>\n    </select>\n    <br><br>\n\n    <button id='toggle-cursor-visibility' class='btn btn-md btn-info'>toggle cursors</button>\n    <br><br>\n\n    <button id='token-window' class='btn btn-md btn-info'>Tokens</button>\n    <br><br>\n\n\n\n\n\n\n\n    ";
 
     return htmlString;
   },
 
   getRightDrawerHtmlPlayer: function getRightDrawerHtmlPlayer() {
     var htmlString = "";
+    htmlString += abc.getRightDrawerHtmlCommon();
+
+    htmlString += "\n    <br><br><button id='show-backstory' class='btn btn-md btn-info'>Show My Backstory</button>\n    <br><br><button id='show-my-powers' class='btn btn-md btn-info'>Show My Powers</button>\n    ";
 
     return htmlString;
   },
 
-  handlerRightDrawerContentsCommon: function handlerRightDrawerContentsCommon() {},
+  handlerRightDrawerContentsCommon: function handlerRightDrawerContentsCommon() {
 
-  handlerRightDrawerContentsDM: function handlerRightDrawerContentsDM() {},
+    $("#toggle-lines").click(function (e) {
+      if ($("#lines").css("opacity") === "0.3") {
+        $("#lines").velocity({ opacity: "0" });
+      } else {
+        $("#lines").velocity({ opacity: "0.3" });
+      }
+    });
 
-  handlerRightDrawerContentsPlayer: function handlerRightDrawerContentsPlayer() {},
+    $("#show-all-powers").click(function (e) {
+      ebot.showModal("All Powers", abc.viewAllPowers());
+    });
+
+    $("#show-all-powers-improved").click(function (e) {
+      ebot.showModal("All Powers+", abc.viewAllPowersImproved());
+      abc.handlerAllPowersImproved();
+    });
+
+    $("#helpful-info").click(function (e) {
+      ebot.showModal("Helpful Info", abc.viewHelpfulInfo());
+    });
+
+    $("#old-character-sheets").click(function (e) {
+      //one of the new windows with all the stuff that went into the top drawer
+      // ebot.showModal("Helpful Info", abc.viewHelpfulInfo())
+    });
+  },
+
+  handlerRightDrawerContentsDM: function handlerRightDrawerContentsDM() {
+    abc.handlerRightDrawerContentsCommon();
+
+    $("#background-select").chosen(ebot.chosenOptions).change(function (e) {
+      var element = $(e.currentTarget);
+      abc.changeBackground(element.val());
+      abc.socket.emit('background changed', { background: element.val() });
+    });
+
+    $('#background_select_chosen').css('width', '100%');
+
+    $("#toggle-cursor-visibility").on("click", function (e) {
+      abc.cursorsVisible = !abc.cursorsVisible;
+      abc.socket.emit('cursors toggle visibility', { cursorsVisible: abc.cursorsVisible });
+    });
+
+    $("#token-window").click(function (e) {
+      var options = {
+        windowId: 'add-tokens',
+        content: abc.getTokenWindowContent()
+      };
+      abc.createWindow(options);
+      abc.handlerTokenWindow();
+    });
+  },
+
+  handlerRightDrawerContentsPlayer: function handlerRightDrawerContentsPlayer() {
+    abc.handlerRightDrawerContentsCommon();
+
+    $("#show-backstory").click(function (e) {
+      var detailText = abc.characterDetails.filter(function (detail) {
+        return detail.playerCharacterId == abc.currentPlayerCharacterId;
+      })[0].backstory;
+
+      detailText = "<div style=\"white-space: pre-wrap;\">" + detailText + "</div>";
+
+      ebot.showModal("Backstory", detailText);
+    });
+
+    $("#show-my-powers").click(function (e) {
+      var htmlString = "";
+
+      var relevantPowerJoins = abc.joinPlayerCharacterPowers.filter(function (join) {
+        return join.playerCharacterId == abc.currentPlayerCharacterId;
+      });
+
+      relevantPowerJoins.forEach(function (join) {
+        var relevantPower = abc.powers.filter(function (power) {
+          return power.powerId == join.powerId;
+        })[0];
+
+        htmlString += "\n        <div class='power-view'>\n\n          <h4>" + relevantPower.name + "</h4>\n          Type: " + relevantPower.type + " <br>\n          Attack Type: " + relevantPower.attackType + " <br>\n          Damage: " + relevantPower.damage + " <br>\n          Effect: " + relevantPower.effect + " <br>\n          Description: " + relevantPower.description + " <br>\n          Flavor: " + relevantPower.flavorText + " <br>\n          Upgrade Effects: " + relevantPower.upgrade + " <br>\n\n        </div><br><br>";
+      });
+
+      ebot.showModal("My Powers", htmlString);
+    });
+  },
+
+  createWindow: function createWindow(options) {
+    var htmlString = "";
+
+    // create the window html
+    htmlString += "\n    <div id='" + options.windowId + "' class='window'>\n      <div id='window-close-" + options.windowId + "' class='window-close-button'><i class='glyphicon glyphicon-remove'></i></div><br>\n      " + options.content + "\n    </div>";
+
+    // add the window to the page
+    $('#wrapper').append(htmlString);
+
+    // make the window draggable and resizable
+    $("#" + options.windowId).draggable().resizable();
+
+    // enable the close functionality
+    $("#window-close-" + options.windowId).click(function (e) {
+      $("#" + options.windowId).remove();
+    });
+  },
+
+  getTokenWindowContent: function getTokenWindowContent() {
+    var htmlString = "";
+
+    abc.items.forEach(function (item) {
+      htmlString += "<button class='add-item-button' item-id='" + item._id + "' item-image-filename='" + item.imageFilename + "'><img src='images/items/" + item.imageFilename + "'></button>";
+    });
+
+    htmlString += "<br><br><br>";
+
+    abc.playerCharacters.forEach(function (pc) {
+      htmlString += "<button class='add-player-character-button' player-character-id='" + pc._id + "' player-character-image-filename='" + pc.imageFilename + "'><img src='/images/player-characters/" + pc.imageFilename + "'></button>";
+    });
+
+    htmlString += "<br><br><br>";
+
+    abc.creatures.forEach(function (creature) {
+      htmlString += "<button class='add-creature-button' creature-id='" + creature._id + "' creature-image-filename='" + creature.imageFilename + "'><img src='/images/creatures/" + creature.imageFilename + "'></button>";
+    });
+
+    htmlString += "<br><br><br>";
+
+    // add-custom-token
+    htmlString += "\n      blizzard: <button class='add-custom-token' image-filename='blizzard.png' token-height='150' token-width='150' opacity='.5'><img height='50' width='50' src='/images/custom/blizzard.png'></button>\n      caution: <button class='add-custom-token' image-filename='caution.png' token-height='100' token-width='100' opacity='.5'><img height='50' width='50' src='/images/custom/caution.png'></button>\n      sorrow: <button class='add-custom-token' image-filename='sorrow.png' token-height='150' token-width='150' opacity='.5'><img height='50' width='50' src='/images/custom/sorrow.png'></button>\n      heals: <button class='add-custom-token' image-filename='green3.png' token-height='150' token-width='150' opacity='.5'><img height='50' width='50' src='/images/custom/green3.png'></button>\n    ";
+
+    return htmlString;
+  },
+
+  handlerTokenWindow: function handlerTokenWindow() {
+
+    $(".add-item-button").click(function (e) {
+      var button = $(e.currentTarget);
+      var imageFilename = button.attr("item-image-filename");
+      var ranTop = ebot.getRandomInt(2, 10) * 50;
+      var ranLeft = ebot.getRandomInt(2, 10) * 50;
+      abc.addTokenItem(imageFilename, ranTop, ranLeft);
+
+      var emitObj = {
+        imageFilename: imageFilename,
+        ranTop: ranTop,
+        ranLeft: ranLeft
+      };
+
+      abc.socket.emit('item token added', emitObj);
+    });
+
+    $(".add-player-character-button").click(function (e) {
+      var button = $(e.currentTarget);
+      var imageFilename = button.attr("player-character-image-filename");
+      var ranTop = ebot.getRandomInt(2, 10) * 50;
+      var ranLeft = ebot.getRandomInt(2, 10) * 50;
+      abc.addTokenPlayerCharacter(imageFilename, ranTop, ranLeft);
+
+      var emitObj = {
+        imageFilename: imageFilename,
+        ranTop: ranTop,
+        ranLeft: ranLeft
+      };
+
+      abc.socket.emit('player character token added', emitObj);
+    });
+
+    $(".add-creature-button").click(function (e) {
+      var button = $(e.currentTarget);
+      var imageFilename = button.attr("creature-image-filename");
+      var id = button.attr("creature-id");
+      var ranTop = ebot.getRandomInt(2, 10) * 50;
+      var ranLeft = ebot.getRandomInt(2, 10) * 50;
+      abc.addTokenCreature(imageFilename, ranTop, ranLeft, id);
+
+      var emitObj = {
+        imageFilename: imageFilename,
+        ranTop: ranTop,
+        ranLeft: ranLeft,
+        id: id
+      };
+
+      abc.socket.emit('creature token added', emitObj);
+    });
+
+    $(".add-custom-token").click(function (e) {
+      var button = $(e.currentTarget);
+      var imageFilename = button.attr("image-filename");
+      var ranTop = ebot.getRandomInt(2, 10) * 50;
+      var ranLeft = ebot.getRandomInt(2, 10) * 50;
+      var height = button.attr("token-height");
+      var width = button.attr("token-width");
+      var opacity = button.attr("opacity");
+      // abc.addCustomToken(imageFilename, ranTop, ranLeft, height, width)
+
+      var emitObj = {
+        event: 'add-custom-token',
+        imageFilename: imageFilename,
+        ranTop: ranTop,
+        ranLeft: ranLeft,
+        height: height,
+        width: width,
+        opacity: opacity
+      };
+
+      abc.toSocket(emitObj);
+    });
+  },
 
   changeBackground: function changeBackground(background) {
     if (background !== "blank") {
