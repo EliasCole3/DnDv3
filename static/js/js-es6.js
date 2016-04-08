@@ -21,7 +21,7 @@ let abc = {
 
       abc.setCurrentPlayerCharacterId(user)
 
-      let DMs = ["a", "bliss"]
+      let DMs = ["a", "bliss", "dash"]
       let players = ["a", "b", "c", "bliss", "laurana", "andros", "skjor", "greg", "ares", "wild"]
 
       if(DMs.indexOf(user.local.username) > -1) {
@@ -101,6 +101,9 @@ let abc = {
         break
       case "bliss":
         abc.currentPlayerCharacterId = 0
+        break
+      case "dash":
+        abc.currentPlayerCharacterId = 99
         break
       default:
         console.log(`setCurrentPlayerCharacterId() fell out of switch statement. Current user:`)
