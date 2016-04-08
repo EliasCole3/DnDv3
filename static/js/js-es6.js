@@ -25,6 +25,7 @@ let abc = {
       let players = ["a", "b", "c", "bliss", "laurana", "andros", "skjor", "greg", "ares", "wild"]
       
       console.log(user.local.username)
+      console.log("Called")
       if(DMs.indexOf(user.local.username) > -1) {
         abc.userIsDM = true
       }
