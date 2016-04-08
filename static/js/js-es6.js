@@ -79,6 +79,7 @@ let abc = {
   },
 
   setCurrentPlayerCharacterId: user => {
+    console.log(user)
 
     switch(user.local.username) {
       case "laurana":
