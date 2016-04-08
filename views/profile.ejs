@@ -60,10 +60,10 @@
 
     <script type="text/javascript">
     $(function() {
-    	if('<%-user.local.username%>' !== 'bliss' || '<%-user.local.username%>' !== 'dash') {
-    	  $("#dm-buttons").hide()
-    	} else {
-			console.log('hi me')
+    	if('<%-user.local.username%>' === 'bliss' && '<%-user.local.username%>' === 'dash') {
+    	  console.log('hi me')
+    	} else {	
+		$("#dm-buttons").hide()
     	}
     })
 		
