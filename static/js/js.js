@@ -21,9 +21,11 @@ var abc = {
 
       abc.setCurrentPlayerCharacterId(user);
 
-      var DMs = ["a", "bliss"];
+      var DMs = ["a", "bliss", "dash"];
       var players = ["a", "b", "c", "bliss", "laurana", "andros", "skjor", "greg", "ares", "wild"];
 
+      console.log(user.local.username);
+      console.log("Called");
       if (DMs.indexOf(user.local.username) > -1) {
         abc.userIsDM = true;
       }
@@ -74,6 +76,7 @@ var abc = {
   },
 
   setCurrentPlayerCharacterId: function setCurrentPlayerCharacterId(user) {
+    console.log(user);
 
     switch (user.local.username) {
       case "laurana":
@@ -96,6 +99,9 @@ var abc = {
         break;
       case "bliss":
         abc.currentPlayerCharacterId = 0;
+        break;
+      case "dash":
+        abc.currentPlayerCharacterId = 99;
         break;
       default:
         console.log("setCurrentPlayerCharacterId() fell out of switch statement. Current user:");
