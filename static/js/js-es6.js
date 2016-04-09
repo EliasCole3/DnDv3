@@ -214,11 +214,11 @@ let abc = {
       if(obj.event === "message") {
         console.log('message received: ')
         console.log(obj)
+        if(!obj.message) return
+
         if(obj.to === 'all') {
           $('#messages-from-all').append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
         }
-
-        if(!obj.message) return
 
         if(obj.to === abc.currentPlayerName) {
           $(`#messages-from-${obj.from}`).append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
@@ -803,6 +803,7 @@ let abc = {
         to: to,
         message: message
       }
+      if(!obj.message) return
       abc.toSocket(obj)
     })
     
