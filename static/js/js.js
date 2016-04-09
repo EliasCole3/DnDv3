@@ -207,7 +207,7 @@ var abc = {
         console.log('message received: ');
         console.log(obj);
         if (obj.to === 'all') {
-          $('#messages-from-all').append("<li class='message-li'>$<b>{obj.from}</b>: " + obj.message + "</li>");
+          $('#messages-from-all').append("<li class='message-li'>$<b>" + obj.from + "</b>: " + obj.message + "</li>");
         }
       }
     });
@@ -563,7 +563,7 @@ var abc = {
     htmlString += "<div class=\"tab-content\">";
     increment = 1;
     players.forEach(function (player) {
-      htmlString += "\n      <div id=\"pane" + increment + "\" class=\"tab-pane fade active\" role=\"tabpanel\">\n        <ul id='messages-from-" + player + "'></ul>\n        <div id='messaging-controls-" + player + "' class='messaging-controls'>\n          <input id='messages-to-send-" + player + "' class='messages-to-send'><button id='send-message-" + player + "' data-from='" + abc.currentPlayerName + "' data-to='" + player + "' class='btn btn-sm messages-send-button'>Send</button>\n        </div>\n      </div>";
+      htmlString += "\n      <div id=\"pane" + increment + "\" class=\"tab-pane fade active\" role=\"tabpanel\">\n        <div class='message-ul-wrapper'>\n          <ul id='messages-from-" + player + "'></ul>\n        </div>\n        <div id='messaging-controls-" + player + "' class='messaging-controls'>\n          <input id='messages-to-send-" + player + "' class='messages-to-send'><button id='send-message-" + player + "' data-from='" + abc.currentPlayerName + "' data-to='" + player + "' class='btn btn-sm messages-send-button'>Send</button>\n        </div>\n      </div>";
 
       increment++;
     });

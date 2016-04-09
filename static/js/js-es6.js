@@ -215,7 +215,7 @@ let abc = {
         console.log('message received: ')
         console.log(obj)
         if(obj.to === 'all') {
-          $('#messages-from-all').append(`<li class='message-li'>$<b>{obj.from}</b>: ${obj.message}</li>`)
+          $('#messages-from-all').append(`<li class='message-li'>$<b>${obj.from}</b>: ${obj.message}</li>`)
         }
       }
 
@@ -762,7 +762,9 @@ let abc = {
     players.forEach(player => {
       htmlString += `
       <div id="pane${increment}" class="tab-pane fade active" role="tabpanel">
-        <ul id='messages-from-${player}'></ul>
+        <div class='message-ul-wrapper'>
+          <ul id='messages-from-${player}'></ul>
+        </div>
         <div id='messaging-controls-${player}' class='messaging-controls'>
           <input id='messages-to-send-${player}' class='messages-to-send'><button id='send-message-${player}' data-from='${abc.currentPlayerName}' data-to='${player}' class='btn btn-sm messages-send-button'>Send</button>
         </div>
