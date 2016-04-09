@@ -151,6 +151,27 @@ html,body{height:100%;}
    height: 20px;
 }
 
+.messaging-controls {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.messages-to-send {
+  width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

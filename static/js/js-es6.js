@@ -730,11 +730,7 @@ let abc = {
     let players = ['all', 'dave', 'elias', 'izzy', 'josh', 'nick'] // this should be more global
     let htmlString = ``
 
-    htmlString += `
-
-    <!-- Nav tabs -->
-    <ul id="tabs" class="nav nav-tabs" role="tablist">`
-
+    htmlString += `<ul id="tabs" class="nav nav-tabs" role="tablist">`
     let increment = 1
     players.forEach(player => {
       htmlString += `
@@ -742,28 +738,22 @@ let abc = {
       `
       increment++
     })
-      // <li role="presentation" class="tabs"><a id="tab1" href="#pane1" aria-controls="pane1" role="tab" data-toggle="tab">All</a></li>
-      // <li role="presentation" class="tabs"><a id="tab2" href="#pane2" aria-controls="pane2" role="tab" data-toggle="tab">Dave</a></li>
-      // <li role="presentation" class="tabs"><a id="tab3" href="#pane3" aria-controls="pane3" role="tab" data-toggle="tab">Elias</a></li>
-      // <li role="presentation" class="tabs"><a id="tab4" href="#pane4" aria-controls="pane4" role="tab" data-toggle="tab">Izzy</a></li>
-      // <li role="presentation" class="tabs"><a id="tab5" href="#pane5" aria-controls="pane5" role="tab" data-toggle="tab">Josh</a></li>
-      // <li role="presentation" class="tabs"><a id="tab6" href="#pane6" aria-controls="pane6" role="tab" data-toggle="tab">Nick</a></li>
     htmlString += `</ul>`
     
     
     htmlString += `<div class="tab-content">`
-
     increment = 1
     players.forEach(player => {
       htmlString += `
       <div id="pane${increment}" class="tab-pane fade active" role="tabpanel">
         <ul id='messages-from-${player}'></ul>
-        <input id='messages-to-send-${player}' class=''><button id='send-message-${player}' class='btn btn-sm'>Send</button>
+        <div id='messaging-controls-${player}' class='messaging-controls'>
+          <input id='messages-to-send-${player}' class='messages-to-send'><button id='send-message-${player}' class='btn btn-sm'>Send</button>
+        </div>
       </div>`
 
       increment++
     })
-
     htmlString += `</div>`
 
     return htmlString
