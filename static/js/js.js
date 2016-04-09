@@ -626,6 +626,7 @@ var abc = {
     });
 
     $('.messages-to-send').on('click', function (e) {
+      console.log("Called");
       var input = $(e.currentTarget);
       var player = input.attr('data-player');
       $("tab-" + player).html(player.capitalize());
