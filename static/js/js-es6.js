@@ -790,30 +790,15 @@ let abc = {
 
   handlerMessagingWindow: () => {
     
-    // let listener2 = new window.keypress.Listener()
-
-    // console.log(listener2)
-
-    let game_ele = document.getElementById('messaging-controls-all')
-    // console.log(game_ele)
-    let listener = new window.keypress.Listener(game_ele)
-    console.log(listener)
-    listener.simple_combo('enter', () => {
-      $('#send-message-all').click()
-    })
-
     let players = ['all', 'dave', 'elias', 'izzy', 'josh', 'nick'] // this should be more global
 
     players.forEach(player => {
       let element = document.getElementById(`messaging-controls-${player}`)
       let listener = new window.keypress.Listener(element)
-      console.log(listener)
       listener.simple_combo('enter', () => {
         $(`#send-message-${player}`).click()
       })
     })
-
-
   
     $('.messages-send-button').on('click', e => {
       let button = $(e.currentTarget)

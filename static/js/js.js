@@ -584,24 +584,11 @@ var abc = {
 
   handlerMessagingWindow: function handlerMessagingWindow() {
 
-    // let listener2 = new window.keypress.Listener()
-
-    // console.log(listener2)
-
-    var game_ele = document.getElementById('messaging-controls-all');
-    // console.log(game_ele)
-    var listener = new window.keypress.Listener(game_ele);
-    console.log(listener);
-    listener.simple_combo('enter', function () {
-      $('#send-message-all').click();
-    });
-
     var players = ['all', 'dave', 'elias', 'izzy', 'josh', 'nick']; // this should be more global
 
     players.forEach(function (player) {
       var element = document.getElementById("messaging-controls-" + player);
       var listener = new window.keypress.Listener(element);
-      console.log(listener);
       listener.simple_combo('enter', function () {
         $("#send-message-" + player).click();
       });
