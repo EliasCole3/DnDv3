@@ -793,7 +793,7 @@ let abc = {
       console.log(selector)
       console.log($(selector))
       let message = $(selector).val()
-      $(`messages-to-send-${to}`).val('')
+      $(`#messages-to-send-${to}`).val('')
 
       let messageObj = {
         from: from,

@@ -590,7 +590,7 @@ var abc = {
       console.log(selector);
       console.log($(selector));
       var message = $(selector).val();
-      $("messages-to-send-" + to).val('');
+      $("#messages-to-send-" + to).val('');
 
       var messageObj = {
         from: from,
