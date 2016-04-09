@@ -217,6 +217,10 @@ let abc = {
         if(obj.to === 'all') {
           $('#messages-from-all').append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
         }
+
+        if(obj.to === abc.currentPlayerName) {
+          $(`#messages-from-${obj.from}`).append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
+        }
       }
 
       
