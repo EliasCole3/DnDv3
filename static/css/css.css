@@ -155,10 +155,20 @@ html,body{height:100%;}
   position: absolute;
   bottom: 0;
   right: 0;
+  width: 100%;
 }
 
 .messages-to-send {
-  width: 100%;
+  width: 79%;
+  height: 30px;
+  color: black;
+  margin-left: 1%;
+}
+
+.messages-send-button {
+  width: 19%;
+  margin-bottom: 2px;
+  margin-right: 1%;
 }
 
 
