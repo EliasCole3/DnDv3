@@ -776,7 +776,8 @@ let abc = {
           <ul id='messages-from-${player}'></ul>
         </div>
         <div id='messaging-controls-${player}' class='messaging-controls'>
-          <input id='messages-to-send-${player}' class='messages-to-send'><button id='send-message-${player}' data-from='${abc.currentPlayerName}' data-to='${player}' class='btn btn-sm messages-send-button'>Send</button>
+          <input id='messages-to-send-${player}' class='messages-to-send'>
+          <button id='send-message-${player}' data-from='${abc.currentPlayerName}' data-to='${player}' class='btn btn-sm messages-send-button'>Send</button>
         </div>
       </div>`
 
@@ -789,7 +790,13 @@ let abc = {
 
   handlerMessagingWindow: () => {
     
-    let listener = new window.keypress.Listener()
+    // let listener = new window.keypress.Listener()
+
+    let game_ele = document.getElementById('#messaging-controls-all')
+    let listener = window.keypress.Listener(game_ele)
+    listener.simple_combo('return', () => {
+      $('#send-message-all').click()
+    })
   
     $('.messages-send-button').on('click', e => {
       let button = $(e.currentTarget)

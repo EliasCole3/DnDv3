@@ -573,7 +573,7 @@ var abc = {
     htmlString += "<div class=\"tab-content\">";
     increment = 1;
     players.forEach(function (player) {
-      htmlString += "\n      <div id=\"pane" + increment + "\" class=\"tab-pane fade active\" role=\"tabpanel\">\n        <div class='message-ul-wrapper'>\n          <ul id='messages-from-" + player + "'></ul>\n        </div>\n        <div id='messaging-controls-" + player + "' class='messaging-controls'>\n          <input id='messages-to-send-" + player + "' class='messages-to-send'><button id='send-message-" + player + "' data-from='" + abc.currentPlayerName + "' data-to='" + player + "' class='btn btn-sm messages-send-button'>Send</button>\n        </div>\n      </div>";
+      htmlString += "\n      <div id=\"pane" + increment + "\" class=\"tab-pane fade active\" role=\"tabpanel\">\n        <div class='message-ul-wrapper'>\n          <ul id='messages-from-" + player + "'></ul>\n        </div>\n        <div id='messaging-controls-" + player + "' class='messaging-controls'>\n          <input id='messages-to-send-" + player + "' class='messages-to-send'>\n          <button id='send-message-" + player + "' data-from='" + abc.currentPlayerName + "' data-to='" + player + "' class='btn btn-sm messages-send-button'>Send</button>\n        </div>\n      </div>";
 
       increment++;
     });
@@ -584,7 +584,13 @@ var abc = {
 
   handlerMessagingWindow: function handlerMessagingWindow() {
 
-    var listener = new window.keypress.Listener();
+    // let listener = new window.keypress.Listener()
+
+    var game_ele = document.getElementById('#messaging-controls-all');
+    var listener = window.keypress.Listener(game_ele);
+    listener.simple_combo('return', function () {
+      $('#send-message-all').click();
+    });
 
     $('.messages-send-button').on('click', function (e) {
       var button = $(e.currentTarget);
