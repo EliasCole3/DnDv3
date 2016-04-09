@@ -547,7 +547,7 @@ var abc = {
     htmlString += "<div class=\"tab-content\">";
     increment = 1;
     players.forEach(function (player) {
-      htmlString += "\n      <div id=\"pane" + increment + "\" class=\"tab-pane fade active\" role=\"tabpanel\">\n        <ul id='messages-from-" + player + "'></ul>\n        <div id='messaging-controls-" + player + "' class='messaging-controls'>\n          <input id='messages-to-send-" + player + "' class='messages-to-send'><button id='send-message-" + player + "' class='btn btn-sm'>Send</button>\n        </div>\n      </div>";
+      htmlString += "\n      <div id=\"pane" + increment + "\" class=\"tab-pane fade active\" role=\"tabpanel\">\n        <ul id='messages-from-" + player + "'></ul>\n        <div id='messaging-controls-" + player + "' class='messaging-controls'>\n          <input id='messages-to-send-" + player + "' class='messages-to-send'><button id='send-message-" + player + "' class='btn btn-sm messages-send-button'>Send</button>\n        </div>\n      </div>";
 
       increment++;
     });

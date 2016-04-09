@@ -748,7 +748,7 @@ let abc = {
       <div id="pane${increment}" class="tab-pane fade active" role="tabpanel">
         <ul id='messages-from-${player}'></ul>
         <div id='messaging-controls-${player}' class='messaging-controls'>
-          <input id='messages-to-send-${player}' class='messages-to-send'><button id='send-message-${player}' class='btn btn-sm'>Send</button>
+          <input id='messages-to-send-${player}' class='messages-to-send'><button id='send-message-${player}' class='btn btn-sm messages-send-button'>Send</button>
         </div>
       </div>`
 
