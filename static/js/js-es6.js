@@ -216,6 +216,8 @@ let abc = {
         console.log(obj)
         if(!obj.message) return
 
+        if(!abc.messageWindowCreated) abc.createMessageWindow()
+
         // if the player is sending a message to all, use their name
         if(obj.to === 'all') {
           $('#messages-from-all').append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
@@ -231,7 +233,11 @@ let abc = {
           $(`#messages-from-${obj.to}`).append(`<li class='message-li'><b>Me</b>: ${obj.message}</li>`)
         }
 
-        $(`#tab-${obj.from}`).html(obj.from.capitalize() + '*')
+        // if the message isn't coming from the current player, add a star to the tab of whoever sent it
+        if(obj.from !== abc.currentPlayerName) {
+          $(`#tab-${obj.from}`).html(obj.from.capitalize() + '*')
+        }
+        
       }
 
       
@@ -434,22 +440,24 @@ let abc = {
     })
 
     $("#messaging").click(e => {
-
-      let options = {
-        windowId: 'messaging', 
-        content: abc.getMessagingWindowContent(),
-        width: '450px',
-        height: '280px'
-      }
-      abc.createWindow(options)
-      abc.handlerMessagingWindow()
-
-
+      abc.createMessageWindow()
     })
 
 
 
 
+  },
+
+  createMessageWindow: () => {
+    let options = {
+      windowId: 'messaging', 
+      content: abc.getMessagingWindowContent(),
+      width: '450px',
+      height: '280px'
+    }
+    abc.createWindow(options)
+    abc.handlerMessagingWindow()
+    abc.messageWindowCreated = true
   },
 
   handlerRightDrawerContentsDM: () => {
@@ -816,9 +824,9 @@ let abc = {
       abc.toSocket(obj)
     })
     
+    // for removing the alert stars
     $('.messaging-tab').on('click', e => {
       let tab = $(e.currentTarget)
-      // let player = tab.attr('data-player').capitalize()
       tab.html(tab.attr('data-player').capitalize())
     })
 
@@ -1595,7 +1603,9 @@ let abc = {
 
   creatureTableCreated: false,
 
-  doNotInclude: ['npc', 'Ryland']
+  doNotInclude: ['npc', 'Ryland'],
+
+  messageWindowCreated: false
 
 }
 
