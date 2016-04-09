@@ -202,6 +202,11 @@ var abc = {
       if (obj.event === "add-custom-token") {
         abc.addCustomToken(obj.imageFilename, obj.ranTop, obj.ranLeft, obj.height, obj.width, obj.opacity);
       }
+
+      if (obj.event === "message") {
+        console.log('message received: ');
+        console.log(obj);
+      }
     });
   },
 
@@ -588,12 +593,13 @@ var abc = {
       var to = button.attr('data-to');
       var message = $("#messages-to-send-" + to).val();
       $("#messages-to-send-" + to).val('');
-      var messageObj = {
+      var obj = {
+        event: 'message',
         from: from,
         to: to,
         message: message
       };
-      console.log(messageObj);
+      abc.toSocket(obj);
     });
   },
 

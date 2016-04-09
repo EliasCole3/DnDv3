@@ -211,7 +211,12 @@ let abc = {
         abc.addCustomToken(obj.imageFilename, obj.ranTop, obj.ranLeft, obj.height, obj.width, obj.opacity) 
       }
 
-    
+      if(obj.event === "message") {
+        console.log('message received: ')
+        console.log(obj)
+      }
+
+      
 
 
 
@@ -791,12 +796,13 @@ let abc = {
       let to = button.attr('data-to')
       let message = $(`#messages-to-send-${to}`).val()
       $(`#messages-to-send-${to}`).val('')
-      let messageObj = {
+      let obj = {
+        event: 'message',
         from: from,
         to: to,
         message: message
       }
-      console.log(messageObj)
+      abc.toSocket(obj)
     })
     
   },
