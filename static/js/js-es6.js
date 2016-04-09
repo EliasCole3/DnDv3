@@ -834,8 +834,7 @@ let abc = {
       let input = $(e.currentTarget)
       let player = input.attr('data-player')
       $(`#tab-${player}`).html(player.capitalize())
-    })
-
+    }) 
   },
 
 
