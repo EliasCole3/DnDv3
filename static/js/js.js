@@ -569,6 +569,7 @@ var abc = {
 
     players.forEach(function (player) {
       $("send-message-" + player).click(function (e) {
+        console.log("Called");
         // let element = $(e.currentTarget)
         var message = $("messages-to-send-" + player).val();
         $("messages-to-send-" + player).val('');

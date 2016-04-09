@@ -772,6 +772,7 @@ let abc = {
 
     players.forEach(player => {
       $(`send-message-${player}`).click(e => {
+        console.log("Called")
         // let element = $(e.currentTarget)
         let message = $(`messages-to-send-${player}`).val()
         $(`messages-to-send-${player}`).val('')
