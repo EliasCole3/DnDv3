@@ -586,7 +586,7 @@ var abc = {
 
     // let listener = new window.keypress.Listener()
 
-    var game_ele = document.getElementById('#messaging-controls-all');
+    var game_ele = document.getElementById('messaging-controls-all');
     console.log(game_ele);
     var listener = window.keypress.Listener(game_ele);
     console.log(listener);

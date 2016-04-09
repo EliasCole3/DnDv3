@@ -792,7 +792,7 @@ let abc = {
     
     // let listener = new window.keypress.Listener()
 
-    let game_ele = document.getElementById('#messaging-controls-all')
+    let game_ele = document.getElementById('messaging-controls-all')
     console.log(game_ele)
     let listener = window.keypress.Listener(game_ele)
     console.log(listener)
