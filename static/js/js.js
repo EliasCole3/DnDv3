@@ -569,7 +569,7 @@ var abc = {
 
     htmlString += "<ul id=\"tabs\" class=\"nav nav-tabs\" role=\"tablist\">";
     players.forEach(function (player) {
-      htmlString += "\n        <li role=\"presentation\" class=\"tabs\"><a id=\"tab-" + player + "\" href=\"#pane-" + player + "\" aria-controls=\"pane-" + player + "\" role=\"tab\" data-toggle=\"tab\">" + player.capitalize() + "</a></li>\n      ";
+      htmlString += "\n        <li role=\"presentation\" class=\"tabs\"><a id=\"tab-" + player + "\" class='messaging-tab' data-player='" + player + "' href=\"#pane-" + player + "\" aria-controls=\"pane-" + player + "\" role=\"tab\" data-toggle=\"tab\">" + player.capitalize() + "</a></li>\n      ";
     });
     htmlString += "</ul>";
 
@@ -608,6 +608,12 @@ var abc = {
       };
       if (!obj.message) return;
       abc.toSocket(obj);
+    });
+
+    $('.messaging-tab').on('click', function (e) {
+      var tab = $(e.currentTarget);
+      // let player = tab.attr('data-player').capitalize()
+      tab.html(tab.attr('data-player').capitalize());
     });
   },
 

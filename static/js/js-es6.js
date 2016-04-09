@@ -764,7 +764,7 @@ let abc = {
     htmlString += `<ul id="tabs" class="nav nav-tabs" role="tablist">`
     players.forEach(player => {
       htmlString += `
-        <li role="presentation" class="tabs"><a id="tab-${player}" href="#pane-${player}" aria-controls="pane-${player}" role="tab" data-toggle="tab">${player.capitalize()}</a></li>
+        <li role="presentation" class="tabs"><a id="tab-${player}" class='messaging-tab' data-player='${player}' href="#pane-${player}" aria-controls="pane-${player}" role="tab" data-toggle="tab">${player.capitalize()}</a></li>
       `
     })
     htmlString += `</ul>`
@@ -816,6 +816,12 @@ let abc = {
       abc.toSocket(obj)
     })
     
+    $('.messaging-tab').on('click', e => {
+      let tab = $(e.currentTarget)
+      // let player = tab.attr('data-player').capitalize()
+      tab.html(tab.attr('data-player').capitalize())
+    })
+
   },
 
 
