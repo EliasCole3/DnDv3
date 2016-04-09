@@ -756,7 +756,7 @@ let abc = {
       <div id="pane${increment}" class="tab-pane fade active" role="tabpanel">
         <ul id='messages-from-${player}'></ul>
         <div id='messaging-controls-${player}' class='messaging-controls'>
-          <input id='messages-to-send-${player}' class='messages-to-send'><button id='send-message-${player}' class='btn btn-sm messages-send-button'>Send</button>
+          <input id='messages-to-send-${player}' class='messages-to-send'><button id='send-message-${player}' data-from='${abc.currentPlayerName}' data-to='${player}' class='btn btn-sm messages-send-button'>Send</button>
         </div>
       </div>`
 
@@ -768,22 +768,38 @@ let abc = {
   },
 
   handlerMessagingWindow: () => {
-    let players = ['all', 'dave', 'elias', 'izzy', 'josh', 'nick'] // this should be more global
+    // let players = ['all', 'dave', 'elias', 'izzy', 'josh', 'nick'] // this should be more global
 
-    players.forEach(player => {
-      console.log(player)
-      $(`send-message-${player}`).on('click', e => {
-        // let element = $(e.currentTarget)
-        let message = $(`messages-to-send-${player}`).val()
-        $(`messages-to-send-${player}`).val('')
-        let messageObj = {
-          from: abc.currentPlayerName,
-          to: player,
-          message: message
-        }
-        console.log(messageObj)
-      })
+    // players.forEach(player => {
+    //   console.log(player)
+    //   $(`send-message-${player}`).on('click', e => {
+    //     // let element = $(e.currentTarget)
+    //     let message = $(`messages-to-send-${player}`).val()
+    //     $(`messages-to-send-${player}`).val('')
+    //     let messageObj = {
+    //       from: abc.currentPlayerName,
+    //       to: player,
+    //       message: message
+    //     }
+    //     console.log(messageObj)
+    //   })
+    // })
+  
+    $('.messages-send-button').on('click', e => {
+      let button = $(e.currentTarget)
+      let from = button.attr('data-from')
+      let to = button.attr('data-to')
+      let message = $(`messages-to-send-${from}`).val()
+      $(`messages-to-send-${from}`).val('')
+
+      let messageObj = {
+        from: from,
+        to: to,
+        message: message
+      }
+      console.log(messageObj)
     })
+    
   },
 
 

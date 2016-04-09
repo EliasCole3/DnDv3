@@ -555,7 +555,7 @@ var abc = {
     htmlString += "<div class=\"tab-content\">";
     increment = 1;
     players.forEach(function (player) {
-      htmlString += "\n      <div id=\"pane" + increment + "\" class=\"tab-pane fade active\" role=\"tabpanel\">\n        <ul id='messages-from-" + player + "'></ul>\n        <div id='messaging-controls-" + player + "' class='messaging-controls'>\n          <input id='messages-to-send-" + player + "' class='messages-to-send'><button id='send-message-" + player + "' class='btn btn-sm messages-send-button'>Send</button>\n        </div>\n      </div>";
+      htmlString += "\n      <div id=\"pane" + increment + "\" class=\"tab-pane fade active\" role=\"tabpanel\">\n        <ul id='messages-from-" + player + "'></ul>\n        <div id='messaging-controls-" + player + "' class='messaging-controls'>\n          <input id='messages-to-send-" + player + "' class='messages-to-send'><button id='send-message-" + player + "' data-from='" + abc.currentPlayerName + "' data-to='" + player + "' class='btn btn-sm messages-send-button'>Send</button>\n        </div>\n      </div>";
 
       increment++;
     });
@@ -565,21 +565,36 @@ var abc = {
   },
 
   handlerMessagingWindow: function handlerMessagingWindow() {
-    var players = ['all', 'dave', 'elias', 'izzy', 'josh', 'nick']; // this should be more global
+    // let players = ['all', 'dave', 'elias', 'izzy', 'josh', 'nick'] // this should be more global
 
-    players.forEach(function (player) {
-      console.log(player);
-      $("send-message-" + player).on('click', function (e) {
-        // let element = $(e.currentTarget)
-        var message = $("messages-to-send-" + player).val();
-        $("messages-to-send-" + player).val('');
-        var messageObj = {
-          from: abc.currentPlayerName,
-          to: player,
-          message: message
-        };
-        console.log(messageObj);
-      });
+    // players.forEach(player => {
+    //   console.log(player)
+    //   $(`send-message-${player}`).on('click', e => {
+    //     // let element = $(e.currentTarget)
+    //     let message = $(`messages-to-send-${player}`).val()
+    //     $(`messages-to-send-${player}`).val('')
+    //     let messageObj = {
+    //       from: abc.currentPlayerName,
+    //       to: player,
+    //       message: message
+    //     }
+    //     console.log(messageObj)
+    //   })
+    // })
+
+    $('.messages-send-button').on('click', function (e) {
+      var button = $(e.currentTarget);
+      var from = button.attr('data-from');
+      var to = button.attr('data-to');
+      var message = $("messages-to-send-" + from).val();
+      $("messages-to-send-" + from).val('');
+
+      var messageObj = {
+        from: from,
+        to: to,
+        message: message
+      };
+      console.log(messageObj);
     });
   },
 
