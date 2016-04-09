@@ -207,7 +207,7 @@ var abc = {
         console.log('message received: ');
         console.log(obj);
         if (obj.to === 'all') {
-          $('#messages-from-all').append("<li class='message-li'>$<b>" + obj.from + "</b>: " + obj.message + "</li>");
+          $('#messages-from-all').append("<li class='message-li'><b>" + obj.from.capitalize() + "</b>: " + obj.message + "</li>");
         }
       }
     });
