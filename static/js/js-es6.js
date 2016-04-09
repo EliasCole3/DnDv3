@@ -214,9 +214,11 @@ let abc = {
       if(obj.event === "message") {
         console.log('message received: ')
         console.log(obj)
-        if(obj.to === 'all') {
-          $('#messages-from-all').append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
-        }
+        // if(obj.to === 'all') {
+        //   $('#messages-from-all').append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
+        // }
+
+        if(!obj.message) return
 
         if(obj.to === abc.currentPlayerName) {
           $(`#messages-from-${obj.from}`).append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
@@ -786,22 +788,8 @@ let abc = {
   },
 
   handlerMessagingWindow: () => {
-    // let players = ['all', 'dave', 'elias', 'izzy', 'josh', 'nick'] // this should be more global
-
-    // players.forEach(player => {
-    //   console.log(player)
-    //   $(`send-message-${player}`).on('click', e => {
-    //     // let element = $(e.currentTarget)
-    //     let message = $(`messages-to-send-${player}`).val()
-    //     $(`messages-to-send-${player}`).val('')
-    //     let messageObj = {
-    //       from: abc.currentPlayerName,
-    //       to: player,
-    //       message: message
-    //     }
-    //     console.log(messageObj)
-    //   })
-    // })
+    
+    let listener = new window.keypress.Listener()
   
     $('.messages-send-button').on('click', e => {
       let button = $(e.currentTarget)
