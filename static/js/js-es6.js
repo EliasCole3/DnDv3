@@ -790,15 +790,15 @@ let abc = {
 
   handlerMessagingWindow: () => {
     
-    let listener2 = new window.keypress.Listener()
+    // let listener2 = new window.keypress.Listener()
 
-    console.log(listener2)
+    // console.log(listener2)
 
     let game_ele = document.getElementById('messaging-controls-all')
-    console.log(game_ele)
+    // console.log(game_ele)
     let listener = new window.keypress.Listener(game_ele)
     console.log(listener)
-    listener.simple_combo('return', () => {
+    listener.simple_combo('enter', () => {
       $('#send-message-all').click()
     })
   

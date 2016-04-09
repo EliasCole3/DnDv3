@@ -584,15 +584,15 @@ var abc = {
 
   handlerMessagingWindow: function handlerMessagingWindow() {
 
-    var listener2 = new window.keypress.Listener();
+    // let listener2 = new window.keypress.Listener()
 
-    console.log(listener2);
+    // console.log(listener2)
 
     var game_ele = document.getElementById('messaging-controls-all');
-    console.log(game_ele);
+    // console.log(game_ele)
     var listener = new window.keypress.Listener(game_ele);
     console.log(listener);
-    listener.simple_combo('return', function () {
+    listener.simple_combo('enter', function () {
       $('#send-message-all').click();
     });
 
