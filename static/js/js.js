@@ -299,9 +299,7 @@ var abc = {
       abc.handlerOldCharacterSheetWindow();
     });
 
-    $("#old-character-sheets").click(function (e) {
-      //one of the new windows with all the stuff that went into the top drawer
-      // ebot.showModal("Helpful Info", abc.viewHelpfulInfo())
+    $("#messaging").click(function (e) {
 
       var options = {
         windowId: 'messaging',
@@ -534,7 +532,13 @@ var abc = {
     });
   },
 
-  getMessagingWindowContent: function getMessagingWindowContent() {},
+  getMessagingWindowContent: function getMessagingWindowContent() {
+    var htmlString = "";
+
+    htmlString += "\n\n    <!-- Nav tabs -->\n    <ul id=\"tabs\" class=\"nav nav-tabs\" role=\"tablist\">\n      <li role=\"presentation\" class=\"tabs\"><a id=\"tab1\" href=\"#pane1\" aria-controls=\"pane1\" role=\"tab\" data-toggle=\"tab\">All</a></li>\n      <li role=\"presentation\" class=\"tabs\"><a id=\"tab2\" href=\"#pane2\" aria-controls=\"pane2\" role=\"tab\" data-toggle=\"tab\">Dave</a></li>\n      <li role=\"presentation\" class=\"tabs\"><a id=\"tab3\" href=\"#pane3\" aria-controls=\"pane3\" role=\"tab\" data-toggle=\"tab\">Elias</a></li>\n      <li role=\"presentation\" class=\"tabs\"><a id=\"tab4\" href=\"#pane4\" aria-controls=\"pane4\" role=\"tab\" data-toggle=\"tab\">Izzy</a></li>\n      <li role=\"presentation\" class=\"tabs\"><a id=\"tab5\" href=\"#pane5\" aria-controls=\"pane5\" role=\"tab\" data-toggle=\"tab\">Josh</a></li>\n      <li role=\"presentation\" class=\"tabs\"><a id=\"tab6\" href=\"#pane6\" aria-controls=\"pane6\" role=\"tab\" data-toggle=\"tab\">Nick</a></li>\n    </ul>\n    \n    <!-- Tab panes -->\n    <div class=\"tab-content\">\n      <div id=\"pane1\" class=\"tab-pane fade active\" role=\"tabpanel\"></div>\n      \n      <div id=\"pane2\" class=\"tab-pane fade\" role=\"tabpanel\"></div>\n            \n      <div id=\"pane3\" class=\"tab-pane fade\" role=\"tabpanel\"></div>\n            \n      <div id=\"pane4\" class=\"tab-pane fade\" role=\"tabpanel\"></div>\n            \n      <div id=\"pane5\" class=\"tab-pane fade\" role=\"tabpanel\"></div>\n            \n      <div id=\"pane6\" class=\"tab-pane fade\" role=\"tabpanel\"></div>\n      \n    </div>\n\n    ";
+
+    return htmlString;
+  },
 
   handlerMessagingWindow: function handlerMessagingWindow() {},
 
