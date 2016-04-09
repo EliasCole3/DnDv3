@@ -167,7 +167,7 @@ html,body{height:100%;}
 
 .messages-send-button {
   width: 19%;
-  margin-bottom: 2px;
+  margin-bottom: 2px !important;
   margin-right: 1%;
 }
 

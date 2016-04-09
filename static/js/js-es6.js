@@ -83,27 +83,35 @@ let abc = {
     switch(user.local.username) {
       case "laurana":
         abc.currentPlayerCharacterId = 1
+        abc.currentPlayerName = 'ryland'
         break
       case "andros":
         abc.currentPlayerCharacterId = 2
+        abc.currentPlayerName = 'dave'
         break
       case "skjor":
         abc.currentPlayerCharacterId = 3
+        abc.currentPlayerName = 'josh'
         break
       case "greg":
         abc.currentPlayerCharacterId = 4
+        abc.currentPlayerName = 'nick'
         break
       case "ares":
         abc.currentPlayerCharacterId = 5
+        abc.currentPlayerName = 'izzy'
         break
       case "wild":
         abc.currentPlayerCharacterId = 8
+        abc.currentPlayerName = 'jon'
         break
       case "bliss":
         abc.currentPlayerCharacterId = 0
+        abc.currentPlayerName = 'elias'
         break
       case "dash":
         abc.currentPlayerCharacterId = 99
+        abc.currentPlayerName = 'dave'
         break
       default:
         console.log(`setCurrentPlayerCharacterId() fell out of switch statement. Current user:`)
@@ -760,7 +768,21 @@ let abc = {
   },
 
   handlerMessagingWindow: () => {
+    let players = ['all', 'dave', 'elias', 'izzy', 'josh', 'nick'] // this should be more global
 
+    players.forEach(player => {
+      $(`send-message-${player}`).click(e => {
+        // let element = $(e.currentTarget)
+        let message = $(`messages-to-send-${player}`).val()
+        $(`messages-to-send-${player}`).val('')
+        let messageObj = {
+          from: abc.currentPlayerName,
+          to: player,
+          message: message
+        }
+        console.log(messageObj)
+      })
+    })
   },
 
 
@@ -1507,6 +1529,8 @@ let abc = {
   userIsDM: false,
 
   currentPlayerCharacterId: 0,
+  
+  currentPlayerName: '',
 
   items: [],
 
