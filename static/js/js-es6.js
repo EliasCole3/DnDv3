@@ -223,7 +223,7 @@ let abc = {
         }
 
         if(obj.from === abc.currentPlayerName) {
-          $(`#messages-from-${obj.to}`).append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
+          $(`#messages-from-${obj.to}`).append(`<li class='message-li'><b>Me</b>: ${obj.message}</li>`)
         }
       }
 
