@@ -790,7 +790,8 @@ let abc = {
       let button = $(e.currentTarget)
       let from = button.attr('data-from')
       let to = button.attr('data-to')
-      let message = $(`messages-to-send-${from}`).val()
+      let selector = `messages-to-send-${from}`
+      let message = $(selector).val()
       $(`messages-to-send-${from}`).val('')
 
       let messageObj = {

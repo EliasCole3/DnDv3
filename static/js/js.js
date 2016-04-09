@@ -587,7 +587,8 @@ var abc = {
       var button = $(e.currentTarget);
       var from = button.attr('data-from');
       var to = button.attr('data-to');
-      var message = $("messages-to-send-" + from).val();
+      var selector = "messages-to-send-" + from;
+      var message = $(selector).val();
       $("messages-to-send-" + from).val('');
 
       var messageObj = {
