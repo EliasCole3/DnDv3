@@ -212,8 +212,8 @@ let abc = {
       }
 
       if(obj.event === "message") {
-        console.log('message received: ')
-        console.log(obj)
+        // console.log('message received: ')
+        // console.log(obj)
         if(!obj.message) return
 
         if(!abc.messageWindowCreated) abc.createMessageWindow()
