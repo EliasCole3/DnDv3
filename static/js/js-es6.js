@@ -771,6 +771,7 @@ let abc = {
     let players = ['all', 'dave', 'elias', 'izzy', 'josh', 'nick'] // this should be more global
 
     players.forEach(player => {
+      console.log(player)
       $(`send-message-${player}`).on('click', e => {
         // let element = $(e.currentTarget)
         let message = $(`messages-to-send-${player}`).val()
