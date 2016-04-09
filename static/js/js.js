@@ -563,19 +563,14 @@ var abc = {
     var htmlString = "";
 
     htmlString += "<ul id=\"tabs\" class=\"nav nav-tabs\" role=\"tablist\">";
-    var increment = 1;
     players.forEach(function (player) {
-      htmlString += "\n        <li role=\"presentation\" class=\"tabs\"><a id=\"tab" + increment + "\" href=\"#pane" + increment + "\" aria-controls=\"pane" + increment + "\" role=\"tab\" data-toggle=\"tab\">" + player.capitalize() + "</a></li>\n      ";
-      increment++;
+      htmlString += "\n        <li role=\"presentation\" class=\"tabs\"><a id=\"tab-" + player + "\" href=\"#pane-" + player + "\" aria-controls=\"pane-" + player + "\" role=\"tab\" data-toggle=\"tab\">" + player.capitalize() + "</a></li>\n      ";
     });
     htmlString += "</ul>";
 
     htmlString += "<div class=\"tab-content\">";
-    increment = 1;
     players.forEach(function (player) {
-      htmlString += "\n      <div id=\"pane" + increment + "\" class=\"tab-pane fade active\" role=\"tabpanel\">\n        <div class='message-ul-wrapper'>\n          <ul id='messages-from-" + player + "'></ul>\n        </div>\n        <div id='messaging-controls-" + player + "' class='messaging-controls'>\n          <input id='messages-to-send-" + player + "' class='messages-to-send'>\n          <button id='send-message-" + player + "' data-from='" + abc.currentPlayerName + "' data-to='" + player + "' class='btn btn-sm messages-send-button'>Send</button>\n        </div>\n      </div>";
-
-      increment++;
+      htmlString += "\n      <div id=\"pane-" + player + "\" class=\"tab-pane fade active\" role=\"tabpanel\">\n        <div class='message-ul-wrapper'>\n          <ul id='messages-from-" + player + "'></ul>\n        </div>\n        <div id='messaging-controls-" + player + "' class='messaging-controls'>\n          <input id='messages-to-send-" + player + "' class='messages-to-send'>\n          <button id='send-message-" + player + "' data-from='" + abc.currentPlayerName + "' data-to='" + player + "' class='btn btn-sm messages-send-button'>Send</button>\n        </div>\n      </div>";
     });
     htmlString += "</div>";
 

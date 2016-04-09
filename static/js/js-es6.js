@@ -757,21 +757,18 @@ let abc = {
     let htmlString = ``
 
     htmlString += `<ul id="tabs" class="nav nav-tabs" role="tablist">`
-    let increment = 1
     players.forEach(player => {
       htmlString += `
-        <li role="presentation" class="tabs"><a id="tab${increment}" href="#pane${increment}" aria-controls="pane${increment}" role="tab" data-toggle="tab">${player.capitalize()}</a></li>
+        <li role="presentation" class="tabs"><a id="tab-${player}" href="#pane-${player}" aria-controls="pane-${player}" role="tab" data-toggle="tab">${player.capitalize()}</a></li>
       `
-      increment++
     })
     htmlString += `</ul>`
     
     
     htmlString += `<div class="tab-content">`
-    increment = 1
     players.forEach(player => {
       htmlString += `
-      <div id="pane${increment}" class="tab-pane fade active" role="tabpanel">
+      <div id="pane-${player}" class="tab-pane fade active" role="tabpanel">
         <div class='message-ul-wrapper'>
           <ul id='messages-from-${player}'></ul>
         </div>
@@ -780,8 +777,6 @@ let abc = {
           <button id='send-message-${player}' data-from='${abc.currentPlayerName}' data-to='${player}' class='btn btn-sm messages-send-button'>Send</button>
         </div>
       </div>`
-
-      increment++
     })
     htmlString += `</div>`
 
