@@ -172,8 +172,8 @@ html,body{height:100%;}
 }
 
 .message-ul-wrapper {
-  height: 140px;
-  overflow: scroll;
+  height: 180px;
+  overflow-y: scroll;
 }
 
 
