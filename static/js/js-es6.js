@@ -786,11 +786,12 @@ let abc = {
     // })
   
     $('.messages-send-button').on('click', e => {
-      console.log("Called")
       let button = $(e.currentTarget)
       let from = button.attr('data-from')
       let to = button.attr('data-to')
       let selector = `messages-to-send-${from}`
+      console.log(selector)
+      console.log($(selector))
       let message = $(selector).val()
       $(`messages-to-send-${from}`).val('')
 
