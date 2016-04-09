@@ -206,9 +206,9 @@ var abc = {
       if (obj.event === "message") {
         console.log('message received: ');
         console.log(obj);
-        // if(obj.to === 'all') {
-        //   $('#messages-from-all').append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
-        // }
+        if (obj.to === 'all') {
+          $('#messages-from-all').append("<li class='message-li'><b>" + obj.from.capitalize() + "</b>: " + obj.message + "</li>");
+        }
 
         if (!obj.message) return;
 
@@ -216,7 +216,7 @@ var abc = {
           $("#messages-from-" + obj.from).append("<li class='message-li'><b>" + obj.from.capitalize() + "</b>: " + obj.message + "</li>");
         }
 
-        if (obj.from === abc.currentPlayerName) {
+        if (obj.from === abc.currentPlayerName && obj.to !== 'all') {
           $("#messages-from-" + obj.to).append("<li class='message-li'><b>Me</b>: " + obj.message + "</li>");
         }
       }
