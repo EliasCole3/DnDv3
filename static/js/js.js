@@ -583,6 +583,7 @@ var abc = {
     // })
 
     $('.messages-send-button').on('click', function (e) {
+      console.log("Called");
       var button = $(e.currentTarget);
       var from = button.attr('data-from');
       var to = button.attr('data-to');

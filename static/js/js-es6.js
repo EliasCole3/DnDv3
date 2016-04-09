@@ -786,6 +786,7 @@ let abc = {
     // })
   
     $('.messages-send-button').on('click', e => {
+      console.log("Called")
       let button = $(e.currentTarget)
       let from = button.attr('data-from')
       let to = button.attr('data-to')
