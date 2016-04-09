@@ -796,7 +796,7 @@ let abc = {
 
     let game_ele = document.getElementById('messaging-controls-all')
     console.log(game_ele)
-    let listener = window.keypress.Listener(game_ele)
+    let listener = new window.keypress.Listener(game_ele)
     console.log(listener)
     listener.simple_combo('return', () => {
       $('#send-message-all').click()
