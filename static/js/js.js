@@ -239,7 +239,7 @@ var abc = {
   getRightDrawerHtmlCommon: function getRightDrawerHtmlCommon() {
     var htmlString = "";
 
-    htmlString += "\n    <button id='toggle-lines' class='btn btn-md btn-info'>Toggle Lines</button> \n    <br><br>\n\n    <button id='show-all-powers' class='btn btn-md btn-info'>Show All Powers</button>\n    <br><br>\n\n    <button id='show-all-powers-improved' class='btn btn-md btn-info'>Show All Powers+</button>\n    <br><br>\n\n    <button id='helpful-info' class='btn btn-md btn-info'>Helpful Info</button>\n    <br><br>\n\n    <button id='old-character-sheets' class='btn btn-md btn-info'>Old Character Sheets</button>\n    <br><br>\n\n\n    ";
+    htmlString += "\n    <button id='toggle-lines' class='btn btn-md btn-info'>Toggle Lines</button> \n    <br><br>\n\n    <button id='show-all-powers' class='btn btn-md btn-info'>Show All Powers</button>\n    <br><br>\n\n    <button id='show-all-powers-improved' class='btn btn-md btn-info'>Show All Powers+</button>\n    <br><br>\n\n    <button id='helpful-info' class='btn btn-md btn-info'>Helpful Info</button>\n    <br><br>\n\n    <button id='old-character-sheets' class='btn btn-md btn-info'>Old Character Sheets</button>\n    <br><br>\n\n    <button id='messaging' class='btn btn-md btn-info'>Messaging</button>\n    <br><br>\n\n\n    ";
 
     return htmlString;
   },
@@ -297,6 +297,20 @@ var abc = {
       };
       abc.createWindow(options);
       abc.handlerOldCharacterSheetWindow();
+    });
+
+    $("#old-character-sheets").click(function (e) {
+      //one of the new windows with all the stuff that went into the top drawer
+      // ebot.showModal("Helpful Info", abc.viewHelpfulInfo())
+
+      var options = {
+        windowId: 'messaging',
+        content: abc.getMessagingWindowContent(),
+        width: '1250px',
+        height: '280px'
+      };
+      abc.createWindow(options);
+      abc.handlerMessagingWindow();
     });
   },
 
@@ -519,6 +533,10 @@ var abc = {
       abc.socket.emit('hp changed', { id: id, val: val });
     });
   },
+
+  getMessagingWindowContent: function getMessagingWindowContent() {},
+
+  handlerMessagingWindow: function handlerMessagingWindow() {},
 
   changeBackground: function changeBackground(background) {
     if (background !== "blank") {

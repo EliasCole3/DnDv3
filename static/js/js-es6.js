@@ -79,7 +79,7 @@ let abc = {
   },
 
   setCurrentPlayerCharacterId: user => {
-    
+
     switch(user.local.username) {
       case "laurana":
         abc.currentPlayerCharacterId = 1
@@ -288,6 +288,9 @@ let abc = {
     <button id='old-character-sheets' class='btn btn-md btn-info'>Old Character Sheets</button>
     <br><br>
 
+    <button id='messaging' class='btn btn-md btn-info'>Messaging</button>
+    <br><br>
+
 
     `
 
@@ -395,6 +398,22 @@ let abc = {
       }
       abc.createWindow(options)
       abc.handlerOldCharacterSheetWindow()
+
+
+    })
+
+    $("#old-character-sheets").click(e => {
+      //one of the new windows with all the stuff that went into the top drawer
+      // ebot.showModal("Helpful Info", abc.viewHelpfulInfo())
+
+      let options = {
+        windowId: 'messaging', 
+        content: abc.getMessagingWindowContent(),
+        width: '1250px',
+        height: '280px'
+      }
+      abc.createWindow(options)
+      abc.handlerMessagingWindow()
 
 
     })
@@ -709,9 +728,19 @@ let abc = {
     })
   },
 
+  getMessagingWindowContent: () => {
+
+  },
+
+  handlerMessagingWindow: () => {
+
+  },
 
 
 
+
+
+  
 
 
 
