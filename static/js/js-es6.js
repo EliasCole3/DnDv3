@@ -214,6 +214,9 @@ let abc = {
       if(obj.event === "message") {
         console.log('message received: ')
         console.log(obj)
+        if(obj.to === 'all') {
+          $('#messages-from-all').append(`<li class='message-li'>$<b>{obj.from}</b>: ${obj.message}</li>`)
+        }
       }
 
       
