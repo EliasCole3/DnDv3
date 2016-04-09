@@ -596,6 +596,17 @@ var abc = {
       $('#send-message-all').click();
     });
 
+    var players = ['all', 'dave', 'elias', 'izzy', 'josh', 'nick']; // this should be more global
+
+    players.forEach(function (player) {
+      var element = document.getElementById("messaging-controls-" + player);
+      var listener = new window.keypress.Listener(element);
+      console.log(listener);
+      listener.simple_combo('enter', function () {
+        $("#send-message-" + player).click();
+      });
+    });
+
     $('.messages-send-button').on('click', function (e) {
       var button = $(e.currentTarget);
       var from = button.attr('data-from');
