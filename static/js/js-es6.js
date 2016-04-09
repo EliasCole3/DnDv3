@@ -786,7 +786,7 @@ let abc = {
           <ul id='messages-from-${player}'></ul>
         </div>
         <div id='messaging-controls-${player}' class='messaging-controls'>
-          <input id='messages-to-send-${player}' class='messages-to-send'>
+          <input id='messages-to-send-${player}' class='messages-to-send' data-player='${player}'>
           <button id='send-message-${player}' data-from='${abc.currentPlayerName}' data-to='${player}' class='btn btn-sm messages-send-button'>Send</button>
         </div>
       </div>`
@@ -828,6 +828,12 @@ let abc = {
     $('.messaging-tab').on('click', e => {
       let tab = $(e.currentTarget)
       tab.html(tab.attr('data-player').capitalize())
+    })
+
+    $('.messages-to-send').on('click', e => {
+      let input = $(e.currentTarget)
+      let player = input.attr('data-player')
+      $(`tab-${player}`).html(player.capitalize())
     })
 
   },

@@ -584,7 +584,7 @@ var abc = {
 
     htmlString += "<div class=\"tab-content\">";
     players.forEach(function (player) {
-      htmlString += "\n      <div id=\"pane-" + player + "\" class=\"tab-pane fade active\" role=\"tabpanel\">\n        <div class='message-ul-wrapper'>\n          <ul id='messages-from-" + player + "'></ul>\n        </div>\n        <div id='messaging-controls-" + player + "' class='messaging-controls'>\n          <input id='messages-to-send-" + player + "' class='messages-to-send'>\n          <button id='send-message-" + player + "' data-from='" + abc.currentPlayerName + "' data-to='" + player + "' class='btn btn-sm messages-send-button'>Send</button>\n        </div>\n      </div>";
+      htmlString += "\n      <div id=\"pane-" + player + "\" class=\"tab-pane fade active\" role=\"tabpanel\">\n        <div class='message-ul-wrapper'>\n          <ul id='messages-from-" + player + "'></ul>\n        </div>\n        <div id='messaging-controls-" + player + "' class='messaging-controls'>\n          <input id='messages-to-send-" + player + "' class='messages-to-send' data-player='" + player + "'>\n          <button id='send-message-" + player + "' data-from='" + abc.currentPlayerName + "' data-to='" + player + "' class='btn btn-sm messages-send-button'>Send</button>\n        </div>\n      </div>";
     });
     htmlString += "</div>";
 
@@ -623,6 +623,12 @@ var abc = {
     $('.messaging-tab').on('click', function (e) {
       var tab = $(e.currentTarget);
       tab.html(tab.attr('data-player').capitalize());
+    });
+
+    $('.messages-to-send').on('click', function (e) {
+      var input = $(e.currentTarget);
+      var player = input.attr('data-player');
+      $("tab-" + player).html(player.capitalize());
     });
   },
 
