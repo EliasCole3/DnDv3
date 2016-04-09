@@ -831,10 +831,9 @@ let abc = {
     })
 
     $('.messages-to-send').on('click', e => {
-      console.log("Called")
       let input = $(e.currentTarget)
       let player = input.attr('data-player')
-      $(`tab-${player}`).html(player.capitalize())
+      $(`#tab-${player}`).html(player.capitalize())
     })
 
   },
