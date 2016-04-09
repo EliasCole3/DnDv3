@@ -584,7 +584,9 @@ var abc = {
 
   handlerMessagingWindow: function handlerMessagingWindow() {
 
-    // let listener = new window.keypress.Listener()
+    var listener2 = new window.keypress.Listener();
+
+    console.log(listener2);
 
     var game_ele = document.getElementById('messaging-controls-all');
     console.log(game_ele);

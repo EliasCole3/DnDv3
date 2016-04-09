@@ -790,7 +790,9 @@ let abc = {
 
   handlerMessagingWindow: () => {
     
-    // let listener = new window.keypress.Listener()
+    let listener2 = new window.keypress.Listener()
+
+    console.log(listener2)
 
     let game_ele = document.getElementById('messaging-controls-all')
     console.log(game_ele)
