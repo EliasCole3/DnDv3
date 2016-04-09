@@ -30,6 +30,83 @@
 
 
 
+// handlers for tokens
+$(".add-item-button").click(e => {
+  let button = $(e.currentTarget)
+  let imageFilename = button.attr("item-image-filename")
+  let ranTop = ebot.getRandomInt(2, 10) * 50
+  let ranLeft = ebot.getRandomInt(2, 10) * 50
+  abc.addTokenItem(imageFilename, ranTop, ranLeft)
+
+  let emitObj = {
+    imageFilename: imageFilename,
+    ranTop: ranTop,
+    ranLeft: ranLeft
+  }
+
+  abc.socket.emit('item token added', emitObj)
+})
+
+$(".add-player-character-button").click(e => {
+  let button = $(e.currentTarget)
+  let imageFilename = button.attr("player-character-image-filename")
+  let ranTop = ebot.getRandomInt(2, 10) * 50
+  let ranLeft = ebot.getRandomInt(2, 10) * 50
+  abc.addTokenPlayerCharacter(imageFilename, ranTop, ranLeft)
+
+  let emitObj = {
+    imageFilename: imageFilename,
+    ranTop: ranTop,
+    ranLeft: ranLeft
+  }
+
+  abc.socket.emit('player character token added', emitObj)
+})
+
+$(".add-creature-button").click(e => {
+  let button = $(e.currentTarget)
+  let imageFilename = button.attr("creature-image-filename")
+  let id = button.attr("creature-id")
+  let ranTop = ebot.getRandomInt(2, 10) * 50
+  let ranLeft = ebot.getRandomInt(2, 10) * 50
+  abc.addTokenCreature(imageFilename, ranTop, ranLeft, id)
+
+  let emitObj = {
+    imageFilename: imageFilename,
+    ranTop: ranTop,
+    ranLeft: ranLeft,
+    id: id
+  }
+
+  abc.socket.emit('creature token added', emitObj)
+})
+
+$(".add-custom-token").click(e => {
+  let button = $(e.currentTarget)
+  let imageFilename = button.attr("image-filename")
+  let ranTop = ebot.getRandomInt(2, 10) * 50
+  let ranLeft = ebot.getRandomInt(2, 10) * 50
+  let height = button.attr("token-height")
+  let width = button.attr("token-width")
+  let opacity = button.attr("opacity")
+  // abc.addCustomToken(imageFilename, ranTop, ranLeft, height, width)
+
+  let emitObj = {
+    event: 'add-custom-token',
+    imageFilename: imageFilename,
+    ranTop: ranTop,
+    ranLeft: ranLeft,
+    height: height,
+    width: width,
+    opacity: opacity
+  }
+
+  abc.toSocket(emitObj)
+})
+
+
+
+
 
 
 
