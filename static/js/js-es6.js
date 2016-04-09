@@ -407,7 +407,7 @@ let abc = {
       let options = {
         windowId: 'messaging', 
         content: abc.getMessagingWindowContent(),
-        width: '1250px',
+        width: '450px',
         height: '280px'
       }
       abc.createWindow(options)
@@ -745,7 +745,7 @@ let abc = {
     <div class="tab-content">
       <div id="pane1" class="tab-pane fade active" role="tabpanel"></div>
       
-      <div id="pane2" class="tab-pane fade" role="tabpanel"></div>
+      <div id="pane2" class="tab-pane fade" role="tabpanel">Messages with Dave</div>
             
       <div id="pane3" class="tab-pane fade" role="tabpanel"></div>
             
@@ -753,7 +753,7 @@ let abc = {
             
       <div id="pane5" class="tab-pane fade" role="tabpanel"></div>
             
-      <div id="pane6" class="tab-pane fade" role="tabpanel"></div>
+      <div id="pane6" class="tab-pane fade" role="tabpanel">Unicorn hurr durrr</div>
       
     </div>
 
