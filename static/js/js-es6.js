@@ -216,17 +216,22 @@ let abc = {
         console.log(obj)
         if(!obj.message) return
 
+        // if the player is sending a message to all, use their name
         if(obj.to === 'all') {
           $('#messages-from-all').append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
         }
 
+        // if a message was received intented for the player, add that message to the tab belonging to the sender
         if(obj.to === abc.currentPlayerName) {
           $(`#messages-from-${obj.from}`).append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
         }
 
+        // if the player sent the message and it wasn't going to the all channel, add the sender's message to the channel, so they can see what they said
         if(obj.from === abc.currentPlayerName && obj.to !== 'all') {
           $(`#messages-from-${obj.to}`).append(`<li class='message-li'><b>Me</b>: ${obj.message}</li>`)
         }
+
+        $(`#tab-${obj.from}`).html(obj.from.capitalize() + '*')
       }
 
       
