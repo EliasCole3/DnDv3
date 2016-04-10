@@ -238,8 +238,10 @@ let abc = {
           $(`#tab-${obj.from}`).html(obj.from.capitalize() + '*')
         }
 
-        $(`#messages-from-${obj.from}`).scrollTop(100000)
-        
+        // $(`#messages-from-${obj.from}`).scrollTop(100000)
+        let div = document.getElementById(`messages-from-${obj.from}`)
+        div.scrollTop = div.scrollHeight - div.clientHeight
+
       }
 
       
