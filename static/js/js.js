@@ -227,7 +227,7 @@ var abc = {
 
         // if the message isn't coming from the current player, add a star to the tab of whoever sent it
         if (obj.from !== abc.currentPlayerName) {
-          $("#tab-" + obj.from).html(obj.from.capitalize() + '*');
+          $("#tab-" + obj.from).html("<b>***" + obj.from.capitalize() + "***</b>");
         }
 
         // $(`#messages-from-${obj.from}`).scrollTop(100000)
