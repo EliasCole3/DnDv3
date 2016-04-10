@@ -229,6 +229,8 @@ var abc = {
         if (obj.from !== abc.currentPlayerName) {
           $("#tab-" + obj.from).html(obj.from.capitalize() + '*');
         }
+
+        $("#messages-from-" + obj.from).scrollTop(100000);
       }
     });
   },
