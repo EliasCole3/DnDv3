@@ -239,8 +239,9 @@ let abc = {
         }
 
         // $(`#messages-from-${obj.from}`).scrollTop(100000)
-        let div = document.getElementById(`messages-from-${obj.from}`)
-        div.scrollTop = div.scrollHeight - div.clientHeight
+        $('.message-ul-wrapper').scrollTop(100000)
+        // let div = document.getElementById(`messages-from-${obj.from}`)
+        // div.scrollTop = div.scrollHeight - div.clientHeight
 
       }
 
