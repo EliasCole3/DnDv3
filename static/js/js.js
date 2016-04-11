@@ -235,6 +235,13 @@ var abc = {
         // let div = document.getElementById(`messages-from-${obj.from}`)
         // div.scrollTop = div.scrollHeight - div.clientHeight
       }
+
+      if (obj.event === 'clear-all-tokens') {
+        abc.activeCreatures.length = 0;
+        abc.activeTokens.length = 0;
+        $('.token').remove();
+        abc.currentDynamicDivId = 1;
+      }
     });
   },
 
@@ -289,7 +296,7 @@ var abc = {
     var htmlString = "";
     htmlString += abc.getRightDrawerHtmlCommon();
 
-    htmlString += "\n    <select id='background-select' data-placeholder='Choose a background...'>\n      <option value=''></option>\n      <option value='blank'>Blank</option>\n      <option value='zone-map.png'>Zone Map</option>\n      <option value='river.jpg'>River</option>\n      <option value='twooth-library.png'>Twooth Library</option>\n      <option value='slime-cave.png'>Slime Cave</option>\n      <option value='andora-tavern.jpg'>Andora Tavern</option>\n      <option value='andora-gates.png'>Andora Gates</option>\n      <option value='andora.jpg'>Andora</option>\n      <option value='brement.jpg'>Brement</option>\n      <option value='dark-forest-1.jpg'>Dark Forest</option>\n      <option value='desert-1.JPG'>Desert 1</option>\n      <option value='desert-statue.jpg'>Desert Statue</option>\n      <option value='dunkar.jpg'>Dunkar</option>\n      <option value='forest-path-1.jpg'>Forest Path 1</option>\n      <option value='forest-path-2.jpg'>Forest Path 2</option>\n      <option value='forest-1.JPG'>Forest 1</option>\n      <option value='plains-1.jpg'>Plains 1</option>\n      <option value='plains-2.jpg'>Plains 2</option>\n      <option value='spider-den.jpg'>Spider Den</option>\n      <option value='twooth.jpg'>Twooth</option>\n      <option value='ameretis-flashback-1.jpg'>Flashback 1</option>\n    </select>\n    <br><br>\n\n    <button id='toggle-cursor-visibility' class='btn btn-md btn-info'>toggle cursors</button>\n    <br><br>\n\n    <button id='token-window' class='btn btn-md btn-info'>Tokens</button>\n    <br><br>\n\n\n\n\n\n\n\n    ";
+    htmlString += "\n    <select id='background-select' data-placeholder='Choose a background...'>\n      <option value=''></option>\n      <option value='blank'>Blank</option>\n      <option value='zone-map.png'>Zone Map</option>\n      <option value='river.jpg'>River</option>\n      <option value='twooth-library.png'>Twooth Library</option>\n      <option value='slime-cave.png'>Slime Cave</option>\n      <option value='andora-tavern.jpg'>Andora Tavern</option>\n      <option value='andora-gates.png'>Andora Gates</option>\n      <option value='andora.jpg'>Andora</option>\n      <option value='brement.jpg'>Brement</option>\n      <option value='dark-forest-1.jpg'>Dark Forest</option>\n      <option value='desert-1.JPG'>Desert 1</option>\n      <option value='desert-statue.jpg'>Desert Statue</option>\n      <option value='dunkar.jpg'>Dunkar</option>\n      <option value='forest-path-1.jpg'>Forest Path 1</option>\n      <option value='forest-path-2.jpg'>Forest Path 2</option>\n      <option value='forest-1.JPG'>Forest 1</option>\n      <option value='plains-1.jpg'>Plains 1</option>\n      <option value='plains-2.jpg'>Plains 2</option>\n      <option value='spider-den.jpg'>Spider Den</option>\n      <option value='twooth.jpg'>Twooth</option>\n      <option value='ameretis-flashback-1.jpg'>Flashback 1</option>\n    </select>\n    <br><br>\n\n    <button id='toggle-cursor-visibility' class='btn btn-md btn-info'>toggle cursors</button>\n    <br><br>\n\n    <button id='token-window' class='btn btn-md btn-info'>Tokens</button>\n    <br><br>\n\n    <button id='clear-all-tokens' class='btn btn-md btn-info'>Clear All Tokens</button>\n    <br><br>\n\n    <button id='reset-tokens' class='btn btn-md btn-info'>Reset All Tokens To Mine</button>\n    <br><br>\n\n\n\n\n\n\n\n    ";
 
     return htmlString;
   },
@@ -342,6 +349,10 @@ var abc = {
 
     $("#messaging").click(function (e) {
       abc.createMessageWindow();
+    });
+
+    $('#clear-all-tokens').click(function (e) {
+      abc.toSocket({ event: 'clear-all-tokens' });
     });
   },
 
@@ -762,9 +773,9 @@ var abc = {
     var id = "dynamically-added-div-" + abc.currentDynamicDivId;
     var htmlString = "";
     if (effects.indexOf(imageFilename) > -1) {
-      htmlString = "<div id='" + id + "' style='position:absolute; top:" + top + "px; left:" + left + "px; width: 50px; height: 50px; opacity: 0.4;'><img src='images/items/" + imageFilename + "'></div>";
+      htmlString = "<div id='" + id + "' class='token' style='position:absolute; top:" + top + "px; left:" + left + "px; width: 50px; height: 50px; opacity: 0.4;'><img src='images/items/" + imageFilename + "'></div>";
     } else {
-      htmlString = "<div id='" + id + "' style='position:absolute; top:" + top + "px; left:" + left + "px; width: 50px; height: 50px;'><img src='images/items/" + imageFilename + "'></div>";
+      htmlString = "<div id='" + id + "' class='token' style='position:absolute; top:" + top + "px; left:" + left + "px; width: 50px; height: 50px;'><img src='images/items/" + imageFilename + "'></div>";
     }
     $("#wrapper").append(htmlString);
     $("#" + id).draggable(abc.draggableOptionsToken);
@@ -779,7 +790,7 @@ var abc = {
 
   addTokenPlayerCharacter: function addTokenPlayerCharacter(imageFilename, top, left) {
     var id = "dynamically-added-div-" + abc.currentDynamicDivId;
-    var htmlString = "<div id='" + id + "' style='position:absolute; top:" + top + "px; left:" + left + "px; width: 50px; height: 50px;'><img src='images/player-characters/" + imageFilename + "'></div>";
+    var htmlString = "<div id='" + id + "' class='token' style='position:absolute; top:" + top + "px; left:" + left + "px; width: 50px; height: 50px;'><img src='images/player-characters/" + imageFilename + "'></div>";
     $("#wrapper").append(htmlString);
     $("#" + id).draggable(abc.draggableOptionsToken);
 
@@ -793,7 +804,7 @@ var abc = {
 
   addTokenCreature: function addTokenCreature(imageFilename, top, left, creatureId) {
     var id = "dynamically-added-div-" + abc.currentDynamicDivId;
-    var htmlString = "<div id='" + id + "' token-id='" + abc.currentDynamicDivId + "' style='position:absolute; top:" + top + "px; left:" + left + "px; width: 50px; height: 50px;'><img src='images/creatures/" + imageFilename + "'></div>";
+    var htmlString = "<div id='" + id + "' class='token' token-id='" + abc.currentDynamicDivId + "' style='position:absolute; top:" + top + "px; left:" + left + "px; width: 50px; height: 50px;'><img src='images/creatures/" + imageFilename + "'></div>";
     $("#wrapper").append(htmlString);
     $("#" + id).draggable(abc.draggableOptionsToken);
 
@@ -831,7 +842,7 @@ var abc = {
 
   addCustomToken: function addCustomToken(imageFilename, top, left, height, width, opacity) {
     var id = "dynamically-added-div-" + abc.currentDynamicDivId;
-    var htmlString = "<div id='" + id + "' style='position:absolute; top:" + top + "px; left:" + left + "px; width: " + width + "px; height: " + height + "px; opacity: " + opacity + ";'><img src='images/custom/" + imageFilename + "'></div>";
+    var htmlString = "<div id='" + id + "' class='token' style='position:absolute; top:" + top + "px; left:" + left + "px; width: " + width + "px; height: " + height + "px; opacity: " + opacity + ";'><img src='images/custom/" + imageFilename + "'></div>";
     $("#wrapper").append(htmlString);
     $("#" + id).draggable(abc.draggableOptionsToken);
 
@@ -1190,9 +1201,9 @@ var abc = {
 
   creatureTableCreated: false,
 
-  doNotInclude: ['npc', 'Ryland'],
-
   messageWindowCreated: false,
+
+  doNotInclude: ['npc', 'Ryland'],
 
   activeTokens: []
 

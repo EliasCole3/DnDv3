@@ -245,7 +245,12 @@ let abc = {
 
       }
 
-      
+      if(obj.event === 'clear-all-tokens') {
+        abc.activeCreatures.length = 0
+        abc.activeTokens.length = 0
+        $('.token').remove()
+        abc.currentDynamicDivId = 1
+      }
 
 
 
@@ -376,6 +381,12 @@ let abc = {
     <button id='token-window' class='btn btn-md btn-info'>Tokens</button>
     <br><br>
 
+    <button id='clear-all-tokens' class='btn btn-md btn-info'>Clear All Tokens</button>
+    <br><br>
+
+    <button id='reset-tokens' class='btn btn-md btn-info'>Reset All Tokens To Mine</button>
+    <br><br>
+
 
 
 
@@ -448,6 +459,9 @@ let abc = {
       abc.createMessageWindow()
     })
 
+    $('#clear-all-tokens').click(e => {
+      abc.toSocket({event: 'clear-all-tokens'})
+    })
 
 
 
@@ -1110,9 +1124,9 @@ let abc = {
     let id = `dynamically-added-div-${abc.currentDynamicDivId}`
     let htmlString = ``
     if(effects.indexOf(imageFilename) > -1) {
-      htmlString = `<div id='${id}' style='position:absolute; top:${top}px; left:${left}px; width: 50px; height: 50px; opacity: 0.4;'><img src='images/items/${imageFilename}'></div>`
+      htmlString = `<div id='${id}' class='token' style='position:absolute; top:${top}px; left:${left}px; width: 50px; height: 50px; opacity: 0.4;'><img src='images/items/${imageFilename}'></div>`
     } else {
-      htmlString = `<div id='${id}' style='position:absolute; top:${top}px; left:${left}px; width: 50px; height: 50px;'><img src='images/items/${imageFilename}'></div>`
+      htmlString = `<div id='${id}' class='token' style='position:absolute; top:${top}px; left:${left}px; width: 50px; height: 50px;'><img src='images/items/${imageFilename}'></div>`
     }
     $("#wrapper").append(htmlString)
     $(`#${id}`).draggable(abc.draggableOptionsToken)
@@ -1127,7 +1141,7 @@ let abc = {
 
   addTokenPlayerCharacter: (imageFilename, top, left) => {
     let id = `dynamically-added-div-${abc.currentDynamicDivId}`
-    let htmlString = `<div id='${id}' style='position:absolute; top:${top}px; left:${left}px; width: 50px; height: 50px;'><img src='images/player-characters/${imageFilename}'></div>`
+    let htmlString = `<div id='${id}' class='token' style='position:absolute; top:${top}px; left:${left}px; width: 50px; height: 50px;'><img src='images/player-characters/${imageFilename}'></div>`
     $("#wrapper").append(htmlString)
     $(`#${id}`).draggable(abc.draggableOptionsToken)
 
@@ -1141,7 +1155,7 @@ let abc = {
 
   addTokenCreature: (imageFilename, top, left, creatureId) => {
     let id = `dynamically-added-div-${abc.currentDynamicDivId}`
-    let htmlString = `<div id='${id}' token-id='${abc.currentDynamicDivId}' style='position:absolute; top:${top}px; left:${left}px; width: 50px; height: 50px;'><img src='images/creatures/${imageFilename}'></div>`
+    let htmlString = `<div id='${id}' class='token' token-id='${abc.currentDynamicDivId}' style='position:absolute; top:${top}px; left:${left}px; width: 50px; height: 50px;'><img src='images/creatures/${imageFilename}'></div>`
     $("#wrapper").append(htmlString)
     $(`#${id}`).draggable(abc.draggableOptionsToken)
 
@@ -1180,10 +1194,10 @@ let abc = {
 
   addCustomToken: (imageFilename, top, left, height, width, opacity) => {
     let id = `dynamically-added-div-${abc.currentDynamicDivId}`
-    let htmlString = `<div id='${id}' style='position:absolute; top:${top}px; left:${left}px; width: ${width}px; height: ${height}px; opacity: ${opacity};'><img src='images/custom/${imageFilename}'></div>`
+    let htmlString = `<div id='${id}' class='token' style='position:absolute; top:${top}px; left:${left}px; width: ${width}px; height: ${height}px; opacity: ${opacity};'><img src='images/custom/${imageFilename}'></div>`
     $("#wrapper").append(htmlString)
     $(`#${id}`).draggable(abc.draggableOptionsToken)
-    
+
     abc.activeTokens.push({
       divId: abc.currentDynamicDivId,
       imageFilename: imageFilename
@@ -1634,9 +1648,9 @@ let abc = {
 
   creatureTableCreated: false,
 
-  doNotInclude: ['npc', 'Ryland'],
-
   messageWindowCreated: false,
+
+  doNotInclude: ['npc', 'Ryland'],
 
   activeTokens: []
 
