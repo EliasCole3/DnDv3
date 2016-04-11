@@ -1103,33 +1103,45 @@ let abc = {
 
 
  
-  addTokenItem: (imageFilename, ranTop, ranLeft) => {
+  addTokenItem: (imageFilename, top, left) => {
 
     //I'm a bad person. Fix this
     let effects = ['poison.jpg', 'ice.jpg', 'fire.jpg', 'immobile.gif', 'prone.gif']
     let id = `dynamically-added-div-${abc.currentDynamicDivId}`
     let htmlString = ``
     if(effects.indexOf(imageFilename) > -1) {
-      htmlString = `<div id='${id}' style='position:absolute; top:${ranTop}px; left:${ranLeft}px; width: 50px; height: 50px; opacity: 0.4;'><img src='images/items/${imageFilename}'></div>`
+      htmlString = `<div id='${id}' style='position:absolute; top:${top}px; left:${left}px; width: 50px; height: 50px; opacity: 0.4;'><img src='images/items/${imageFilename}'></div>`
     } else {
-      htmlString = `<div id='${id}' style='position:absolute; top:${ranTop}px; left:${ranLeft}px; width: 50px; height: 50px;'><img src='images/items/${imageFilename}'></div>`
+      htmlString = `<div id='${id}' style='position:absolute; top:${top}px; left:${left}px; width: 50px; height: 50px;'><img src='images/items/${imageFilename}'></div>`
     }
     $("#wrapper").append(htmlString)
     $(`#${id}`).draggable(abc.draggableOptionsToken)
+
+    abc.activeTokens.push({
+      divId: abc.currentDynamicDivId,
+      imageFilename: imageFilename
+    })
+
     abc.currentDynamicDivId++
   },
 
-  addTokenPlayerCharacter: (imageFilename, ranTop, ranLeft) => {
+  addTokenPlayerCharacter: (imageFilename, top, left) => {
     let id = `dynamically-added-div-${abc.currentDynamicDivId}`
-    let htmlString = `<div id='${id}' style='position:absolute; top:${ranTop}px; left:${ranLeft}px; width: 50px; height: 50px;'><img src='images/player-characters/${imageFilename}'></div>`
+    let htmlString = `<div id='${id}' style='position:absolute; top:${top}px; left:${left}px; width: 50px; height: 50px;'><img src='images/player-characters/${imageFilename}'></div>`
     $("#wrapper").append(htmlString)
     $(`#${id}`).draggable(abc.draggableOptionsToken)
+
+    abc.activeTokens.push({
+      divId: abc.currentDynamicDivId,
+      imageFilename: imageFilename
+    })
+    
     abc.currentDynamicDivId++
   },
 
-  addTokenCreature: (imageFilename, ranTop, ranLeft, creatureId) => {
+  addTokenCreature: (imageFilename, top, left, creatureId) => {
     let id = `dynamically-added-div-${abc.currentDynamicDivId}`
-    let htmlString = `<div id='${id}' token-id='${abc.currentDynamicDivId}' style='position:absolute; top:${ranTop}px; left:${ranLeft}px; width: 50px; height: 50px;'><img src='images/creatures/${imageFilename}'></div>`
+    let htmlString = `<div id='${id}' token-id='${abc.currentDynamicDivId}' style='position:absolute; top:${top}px; left:${left}px; width: 50px; height: 50px;'><img src='images/creatures/${imageFilename}'></div>`
     $("#wrapper").append(htmlString)
     $(`#${id}`).draggable(abc.draggableOptionsToken)
 
@@ -1144,9 +1156,7 @@ let abc = {
     //   let creature = abc.activeCreatures.filter(aCreature => {
     //     return aCreature.tokenId === tokenId
     //   })[0]
-
     //   console.log(creature.hp)
-
     // })
 
 
@@ -1160,14 +1170,25 @@ let abc = {
       abc.addCreatureToCreatureTable(newCopy)
     }
 
+    abc.activeTokens.push({
+      divId: abc.currentDynamicDivId,
+      imageFilename: imageFilename
+    })
+    
     abc.currentDynamicDivId++
   },
 
-  addCustomToken: (imageFilename, ranTop, ranLeft, height, width, opacity) => {
+  addCustomToken: (imageFilename, top, left, height, width, opacity) => {
     let id = `dynamically-added-div-${abc.currentDynamicDivId}`
-    let htmlString = `<div id='${id}' style='position:absolute; top:${ranTop}px; left:${ranLeft}px; width: ${width}px; height: ${height}px; opacity: ${opacity};'><img src='images/custom/${imageFilename}'></div>`
+    let htmlString = `<div id='${id}' style='position:absolute; top:${top}px; left:${left}px; width: ${width}px; height: ${height}px; opacity: ${opacity};'><img src='images/custom/${imageFilename}'></div>`
     $("#wrapper").append(htmlString)
     $(`#${id}`).draggable(abc.draggableOptionsToken)
+    
+    abc.activeTokens.push({
+      divId: abc.currentDynamicDivId,
+      imageFilename: imageFilename
+    })
+    
     abc.currentDynamicDivId++
   },
 
@@ -1615,7 +1636,9 @@ let abc = {
 
   doNotInclude: ['npc', 'Ryland'],
 
-  messageWindowCreated: false
+  messageWindowCreated: false,
+
+  activeTokens: []
 
 }
 

@@ -755,33 +755,45 @@ var abc = {
     return htmlString;
   },
 
-  addTokenItem: function addTokenItem(imageFilename, ranTop, ranLeft) {
+  addTokenItem: function addTokenItem(imageFilename, top, left) {
 
     //I'm a bad person. Fix this
     var effects = ['poison.jpg', 'ice.jpg', 'fire.jpg', 'immobile.gif', 'prone.gif'];
     var id = "dynamically-added-div-" + abc.currentDynamicDivId;
     var htmlString = "";
     if (effects.indexOf(imageFilename) > -1) {
-      htmlString = "<div id='" + id + "' style='position:absolute; top:" + ranTop + "px; left:" + ranLeft + "px; width: 50px; height: 50px; opacity: 0.4;'><img src='images/items/" + imageFilename + "'></div>";
+      htmlString = "<div id='" + id + "' style='position:absolute; top:" + top + "px; left:" + left + "px; width: 50px; height: 50px; opacity: 0.4;'><img src='images/items/" + imageFilename + "'></div>";
     } else {
-      htmlString = "<div id='" + id + "' style='position:absolute; top:" + ranTop + "px; left:" + ranLeft + "px; width: 50px; height: 50px;'><img src='images/items/" + imageFilename + "'></div>";
+      htmlString = "<div id='" + id + "' style='position:absolute; top:" + top + "px; left:" + left + "px; width: 50px; height: 50px;'><img src='images/items/" + imageFilename + "'></div>";
     }
     $("#wrapper").append(htmlString);
     $("#" + id).draggable(abc.draggableOptionsToken);
+
+    abc.activeTokens.push({
+      divId: abc.currentDynamicDivId,
+      imageFilename: imageFilename
+    });
+
     abc.currentDynamicDivId++;
   },
 
-  addTokenPlayerCharacter: function addTokenPlayerCharacter(imageFilename, ranTop, ranLeft) {
+  addTokenPlayerCharacter: function addTokenPlayerCharacter(imageFilename, top, left) {
     var id = "dynamically-added-div-" + abc.currentDynamicDivId;
-    var htmlString = "<div id='" + id + "' style='position:absolute; top:" + ranTop + "px; left:" + ranLeft + "px; width: 50px; height: 50px;'><img src='images/player-characters/" + imageFilename + "'></div>";
+    var htmlString = "<div id='" + id + "' style='position:absolute; top:" + top + "px; left:" + left + "px; width: 50px; height: 50px;'><img src='images/player-characters/" + imageFilename + "'></div>";
     $("#wrapper").append(htmlString);
     $("#" + id).draggable(abc.draggableOptionsToken);
+
+    abc.activeTokens.push({
+      divId: abc.currentDynamicDivId,
+      imageFilename: imageFilename
+    });
+
     abc.currentDynamicDivId++;
   },
 
-  addTokenCreature: function addTokenCreature(imageFilename, ranTop, ranLeft, creatureId) {
+  addTokenCreature: function addTokenCreature(imageFilename, top, left, creatureId) {
     var id = "dynamically-added-div-" + abc.currentDynamicDivId;
-    var htmlString = "<div id='" + id + "' token-id='" + abc.currentDynamicDivId + "' style='position:absolute; top:" + ranTop + "px; left:" + ranLeft + "px; width: 50px; height: 50px;'><img src='images/creatures/" + imageFilename + "'></div>";
+    var htmlString = "<div id='" + id + "' token-id='" + abc.currentDynamicDivId + "' style='position:absolute; top:" + top + "px; left:" + left + "px; width: 50px; height: 50px;'><img src='images/creatures/" + imageFilename + "'></div>";
     $("#wrapper").append(htmlString);
     $("#" + id).draggable(abc.draggableOptionsToken);
 
@@ -796,9 +808,7 @@ var abc = {
     //   let creature = abc.activeCreatures.filter(aCreature => {
     //     return aCreature.tokenId === tokenId
     //   })[0]
-
     //   console.log(creature.hp)
-
     // })
 
     var newCopy = abc.getCreature(creatureId);
@@ -811,14 +821,25 @@ var abc = {
       abc.addCreatureToCreatureTable(newCopy);
     }
 
+    abc.activeTokens.push({
+      divId: abc.currentDynamicDivId,
+      imageFilename: imageFilename
+    });
+
     abc.currentDynamicDivId++;
   },
 
-  addCustomToken: function addCustomToken(imageFilename, ranTop, ranLeft, height, width, opacity) {
+  addCustomToken: function addCustomToken(imageFilename, top, left, height, width, opacity) {
     var id = "dynamically-added-div-" + abc.currentDynamicDivId;
-    var htmlString = "<div id='" + id + "' style='position:absolute; top:" + ranTop + "px; left:" + ranLeft + "px; width: " + width + "px; height: " + height + "px; opacity: " + opacity + ";'><img src='images/custom/" + imageFilename + "'></div>";
+    var htmlString = "<div id='" + id + "' style='position:absolute; top:" + top + "px; left:" + left + "px; width: " + width + "px; height: " + height + "px; opacity: " + opacity + ";'><img src='images/custom/" + imageFilename + "'></div>";
     $("#wrapper").append(htmlString);
     $("#" + id).draggable(abc.draggableOptionsToken);
+
+    abc.activeTokens.push({
+      divId: abc.currentDynamicDivId,
+      imageFilename: imageFilename
+    });
+
     abc.currentDynamicDivId++;
   },
 
@@ -1171,7 +1192,9 @@ var abc = {
 
   doNotInclude: ['npc', 'Ryland'],
 
-  messageWindowCreated: false
+  messageWindowCreated: false,
+
+  activeTokens: []
 
 };
 //# sourceMappingURL=js.js.map
