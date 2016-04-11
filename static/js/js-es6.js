@@ -273,7 +273,7 @@ let abc = {
   recreateTokens: data => {
     data.forEach(token => {
       console.log(token.top)
-      token.top.replace(/px/, '')
+      token.top = token.top.replace(/px/, '')
       token.left.replace('px', '')
       console.log(token.top)
       switch(token.creatingFunctionName) {
