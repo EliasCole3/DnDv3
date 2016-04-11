@@ -260,10 +260,10 @@ var abc = {
 
   recreateTokens: function recreateTokens(data) {
     data.forEach(function (token) {
-      console.log(token.top);
+
       token.top = token.top.replace(/px/, '');
-      token.left.replace('px', '');
-      console.log(token.top);
+      token.left = token.left.replace(/px/, '');
+
       switch (token.creatingFunctionName) {
         case 'addTokenItem':
           abc.addTokenItem(token.imageFilename, token.top, token.left);
