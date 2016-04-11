@@ -847,6 +847,8 @@ var abc = {
   },
 
   addTokenPlayerCharacter: function addTokenPlayerCharacter(imageFilename, top, left) {
+    console.log(top);
+    console.log(left);
     var id = "dynamically-added-div-" + abc.currentDynamicDivId;
     var htmlString = "<div id='" + id + "' class='token' style='position:absolute; top:" + top + "px; left:" + left + "px; width: 50px; height: 50px;'><img src='images/player-characters/" + imageFilename + "'></div>";
     $("#wrapper").append(htmlString);
