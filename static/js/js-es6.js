@@ -246,18 +246,49 @@ let abc = {
       }
 
       if(obj.event === 'clear-all-tokens') {
-        abc.activeCreatures.length = 0
-        abc.activeTokens.length = 0
-        $('.token').remove()
-        abc.currentDynamicDivId = 1
-        if(abc.creatureTableCreated) {
-          $('#remove-creature-table').click()
-          abc.creatureTableCreated = false
-        }
+        abc.clearAllTokens()
+      }
+
+      if(obj.event === 'clear-all-tokens-and-reset') {
+        abc.clearAllTokens()
+        abc.recreateTokens(obj.data)
       }
 
 
 
+    })
+  },
+
+  clearAllTokens: () => {
+    abc.activeCreatures.length = 0
+    abc.activeTokens.length = 0
+    $('.token').remove()
+    abc.currentDynamicDivId = 1
+    if(abc.creatureTableCreated) {
+      $('#remove-creature-table').click()
+      abc.creatureTableCreated = false
+    }
+  },
+
+  recreateTokens: data => {
+    data.forEach(token => {
+      switch(token.creatingFunctionName) {
+        case 'addTokenItem': 
+          abc.addTokenItem(token.imageFilename, token.top, token.left)
+          break
+
+        case 'addTokenPlayerCharacter':
+          abc.addTokenPlayerCharacter(token.imageFilename, token.top, token.left)
+          break
+
+        case 'addTokenCreature':
+          abc.addTokenCreature(token.imageFilename, token.top, token.left, token.creatureId)
+          break
+
+        case 'addCustomToken':
+          abc.addCustomToken(token.imageFilename, token.top, token.left, token.height, token.width, token.opacity)
+          break 
+      }
     })
   },
 
@@ -468,20 +499,21 @@ let abc = {
     })
 
     $('#reset-tokens').click(e => {
+
+      // update position of all tokens
       abc.activeTokens.forEach(token => {
-        console.log(token.top)
         token.top = $(`#dynamically-added-div-${token.divId}`).css('top')
         token.left = $(`#dynamically-added-div-${token.divId}`).css('left')
-        console.log(token.top)
       })
 
-
+      // need to save the info, because it's about to be wiped on all clients
       // let activeTokens = abc.deepCopy(abc.activeTokens)
 
-      // abc.toSocket({event: 'clear-all-tokens'})
-      // activeTokens.forEach(token => {
-
-      // })
+      // clear out everything
+      abc.toSocket({
+        event: 'clear-all-tokens-and-reset',
+        data: abc.activeTokens
+      })
     })
 
 
