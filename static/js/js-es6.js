@@ -252,6 +252,7 @@ let abc = {
         abc.currentDynamicDivId = 1
         if(abc.creatureTableCreated) {
           $('#remove-creature-table').click()
+          abc.creatureTableCreated = false
         }
       }
 
