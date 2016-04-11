@@ -272,6 +272,8 @@ let abc = {
 
   recreateTokens: data => {
     data.forEach(token => {
+      token.top.replace(/px/g, '')
+      token.left.replace(/px/g, '')
       switch(token.creatingFunctionName) {
         case 'addTokenItem': 
           abc.addTokenItem(token.imageFilename, token.top, token.left)
