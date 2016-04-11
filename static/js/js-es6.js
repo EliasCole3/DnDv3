@@ -467,6 +467,23 @@ let abc = {
       abc.toSocket({event: 'clear-all-tokens'})
     })
 
+    $('#reset-tokens').click(e => {
+      activeTokens.forEach(token => {
+        console.log(token.top)
+        token.top = $(`#dynamically-added-div-${token.divId}`).css('top')
+        token.left = $(`#dynamically-added-div-${token.divId}`).css('left')
+        console.log(token.top)
+      })
+
+
+      // let activeTokens = abc.deepCopy(abc.activeTokens)
+
+      // abc.toSocket({event: 'clear-all-tokens'})
+      // activeTokens.forEach(token => {
+
+      // })
+    })
+
 
 
   },
@@ -1137,7 +1154,10 @@ let abc = {
 
     abc.activeTokens.push({
       divId: abc.currentDynamicDivId,
-      imageFilename: imageFilename
+      imageFilename: imageFilename,
+      creatingFunctionName: 'addTokenItem',
+      top: top,
+      left: left
     })
 
     abc.currentDynamicDivId++
@@ -1151,7 +1171,10 @@ let abc = {
 
     abc.activeTokens.push({
       divId: abc.currentDynamicDivId,
-      imageFilename: imageFilename
+      imageFilename: imageFilename,
+      creatingFunctionName: 'addTokenPlayerCharacter',
+      top: top,
+      left: left
     })
     
     abc.currentDynamicDivId++
@@ -1190,7 +1213,11 @@ let abc = {
 
     abc.activeTokens.push({
       divId: abc.currentDynamicDivId,
-      imageFilename: imageFilename
+      imageFilename: imageFilename,
+      creatingFunctionName: 'addTokenCreature',
+      top: top,
+      left: left,
+      creatureId: creatureId
     })
     
     abc.currentDynamicDivId++
@@ -1204,7 +1231,13 @@ let abc = {
 
     abc.activeTokens.push({
       divId: abc.currentDynamicDivId,
-      imageFilename: imageFilename
+      imageFilename: imageFilename,
+      creatingFunctionName: 'addCustomToken',
+      top: top,
+      left: left,
+      height: height,
+      width: width,
+      opacity: opacity
     })
     
     abc.currentDynamicDivId++
@@ -1555,6 +1588,10 @@ let abc = {
 
   toSocket: obj => {
     abc.socket.emit('core', obj)
+  },
+
+  everyoneButMe: obj => {
+    abc.socket.emit('everyone-but-me', obj)
   },
 
   deepCopy: (obj) => {

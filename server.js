@@ -129,6 +129,10 @@ io.on('connection', function(socket) {
   socket.on('core', function(obj) {
     io.emit('core', obj)
   })
+
+  socket.on('everyone-but-me', function(obj) {
+    socket.broadcast.emit(obj.event, obj)
+  })
 })
 
 
