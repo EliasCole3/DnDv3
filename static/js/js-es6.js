@@ -250,6 +250,9 @@ let abc = {
         abc.activeTokens.length = 0
         $('.token').remove()
         abc.currentDynamicDivId = 1
+        if(abc.creatureTableCreated) {
+          $('#remove-creature-table').click()
+        }
       }
 
 
