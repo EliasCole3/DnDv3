@@ -272,7 +272,7 @@ let abc = {
 
   recreateTokens: data => {
     data.forEach(token => {
-      
+       
       token.top = token.top.replace(/px/, '')
       token.left = token.left.replace(/px/, '')
 
