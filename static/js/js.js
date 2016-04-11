@@ -360,7 +360,7 @@ var abc = {
     });
 
     $('#reset-tokens').click(function (e) {
-      activeTokens.forEach(function (token) {
+      abc.activeTokens.forEach(function (token) {
         console.log(token.top);
         token.top = $("#dynamically-added-div-" + token.divId).css('top');
         token.left = $("#dynamically-added-div-" + token.divId).css('left');

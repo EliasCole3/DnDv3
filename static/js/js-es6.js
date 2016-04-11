@@ -468,7 +468,7 @@ let abc = {
     })
 
     $('#reset-tokens').click(e => {
-      activeTokens.forEach(token => {
+      abc.activeTokens.forEach(token => {
         console.log(token.top)
         token.top = $(`#dynamically-added-div-${token.divId}`).css('top')
         token.left = $(`#dynamically-added-div-${token.divId}`).css('left')
