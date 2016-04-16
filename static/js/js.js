@@ -332,7 +332,7 @@ var abc = {
     var htmlString = "";
     htmlString += abc.getRightDrawerHtmlCommon();
 
-    htmlString += "\n    <select id='background-select' data-placeholder='Choose a background...'>\n      <option value=''></option>\n      <option value='blank'>Blank</option>\n      <option value='zone-map.png'>Zone Map</option>\n      <option value='river.jpg'>River</option>\n      <option value='twooth-library.png'>Twooth Library</option>\n      <option value='slime-cave.png'>Slime Cave</option>\n      <option value='andora-tavern.jpg'>Andora Tavern</option>\n      <option value='andora-gates.png'>Andora Gates</option>\n      <option value='andora.jpg'>Andora</option>\n      <option value='brement.jpg'>Brement</option>\n      <option value='dark-forest-1.jpg'>Dark Forest</option>\n      <option value='desert-1.JPG'>Desert 1</option>\n      <option value='desert-statue.jpg'>Desert Statue</option>\n      <option value='dunkar.jpg'>Dunkar</option>\n      <option value='forest-path-1.jpg'>Forest Path 1</option>\n      <option value='forest-path-2.jpg'>Forest Path 2</option>\n      <option value='forest-1.JPG'>Forest 1</option>\n      <option value='plains-1.jpg'>Plains 1</option>\n      <option value='plains-2.jpg'>Plains 2</option>\n      <option value='spider-den.jpg'>Spider Den</option>\n      <option value='twooth.jpg'>Twooth</option>\n      <option value='ameretis-flashback-1.jpg'>Flashback 1</option>\n    </select>\n    <br><br>\n\n    <button id='toggle-cursor-visibility' class='btn btn-md btn-info'>toggle cursors</button>\n    <br><br>\n\n    <button id='token-window' class='btn btn-md btn-info'>Tokens</button>\n    <br><br>\n\n    <button id='clear-all-tokens' class='btn btn-md btn-info'>Clear All Tokens</button>\n    <br><br>\n\n    <button id='reset-tokens' class='btn btn-md btn-info'>Reset All Tokens To Mine</button>\n    <br><br>\n\n\n\n\n\n\n\n    ";
+    htmlString += "\n    <select id='background-select' data-placeholder='Choose a background...'>\n      <option value=''></option>\n      <option value='blank'>Blank</option>\n      <option value='zone-map.png'>Zone Map</option>\n      <option value='river.jpg'>River</option>\n      <option value='twooth-library.png'>Twooth Library</option>\n      <option value='slime-cave.png'>Slime Cave</option>\n      <option value='andora-tavern.jpg'>Andora Tavern</option>\n      <option value='andora-gates.png'>Andora Gates</option>\n      <option value='andora.jpg'>Andora</option>\n      <option value='brement.jpg'>Brement</option>\n      <option value='dark-forest-1.jpg'>Dark Forest</option>\n      <option value='desert-1.JPG'>Desert 1</option>\n      <option value='desert-statue.jpg'>Desert Statue</option>\n      <option value='dunkar.jpg'>Dunkar</option>\n      <option value='forest-path-1.jpg'>Forest Path 1</option>\n      <option value='forest-path-2.jpg'>Forest Path 2</option>\n      <option value='forest-1.JPG'>Forest 1</option>\n      <option value='plains-1.jpg'>Plains 1</option>\n      <option value='plains-2.jpg'>Plains 2</option>\n      <option value='spider-den.jpg'>Spider Den</option>\n      <option value='twooth.jpg'>Twooth</option>\n      <option value='ameretis-flashback-1.jpg'>Flashback 1</option>\n    </select>\n    <br><br>\n\n    <button id='toggle-cursor-visibility' class='btn btn-md btn-info'>toggle cursors</button>\n    <br><br>\n\n    <button id='token-window' class='btn btn-md btn-info'>Tokens</button>\n    <br><br>\n\n    <button id='clear-all-tokens' class='btn btn-md btn-info'>Clear All Tokens</button>\n    <br><br>\n\n    <button id='reset-tokens' class='btn btn-md btn-info'>Reset All Tokens To Mine</button>\n    <br><br>\n\n    ";
 
     return htmlString;
   },
@@ -507,6 +507,7 @@ var abc = {
     // enable the close functionality
     $("#window-close-" + options.windowId).click(function (e) {
       $("#" + options.windowId).remove();
+      if (options.closeCallback) options.closeCallback();
     });
   },
 
@@ -1040,7 +1041,10 @@ var abc = {
       windowId: 'creature-table',
       content: abc.getCreatureTableWindowContent(),
       width: '550px',
-      height: '300px'
+      height: '300px',
+      closeCallback: function creatureTableClosed() {
+        abc.creatureTableCreated = false;
+      }
     };
     abc.createWindow(options);
     abc.handlerCreatureTable();

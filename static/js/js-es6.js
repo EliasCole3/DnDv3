@@ -423,16 +423,7 @@ let abc = {
     <button id='reset-tokens' class='btn btn-md btn-info'>Reset All Tokens To Mine</button>
     <br><br>
 
-
-
-
-
-
-
     `
-
-
-
 
     return htmlString
   },
@@ -655,6 +646,7 @@ let abc = {
     // enable the close functionality
     $(`#window-close-${options.windowId}`).click(e => {
       $(`#${options.windowId}`).remove()
+      if(options.closeCallback) options.closeCallback()
     })
   },
 
@@ -1456,7 +1448,10 @@ let abc = {
       windowId: 'creature-table', 
       content: abc.getCreatureTableWindowContent(),
       width: '550px',
-      height: '300px'
+      height: '300px',
+      closeCallback: function creatureTableClosed() {
+        abc.creatureTableCreated = false
+      }
     }
     abc.createWindow(options)
     abc.handlerCreatureTable()
