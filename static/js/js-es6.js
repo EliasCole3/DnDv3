@@ -37,10 +37,7 @@ let abc = {
       }
 
       $.when.apply($, abc.retrieveInitialModels()).done(() => {
-        // abc.fillTopDrawer()
         abc.fillRightDrawer()
-        // abc.fillLeftDrawer()
-        // abc.fillBottomDrawer()
       })
 
       abc.addPlayerCursorDivs()
@@ -68,7 +65,7 @@ let abc = {
   },
 
   updateCursorImage: emitObj => {
-    console.log(emitObj)
+    // console.log(emitObj)
     if(abc.cursorDelay === 10) {
       $(`#cursor-${emitObj.playerId}`).css(`top`, emitObj.y).css(`left`, emitObj.x)
       abc.cursorDelay = 0
@@ -1470,6 +1467,9 @@ let abc = {
         <tr id='ct-header-row'>
           <th>Name</th>
           <th>HP</th>
+          <th>AC</th>
+          <th>Will</th>
+          <th>Reflex</th>
           <th>Status</th>
           <th></th>
         </tr>
@@ -1495,6 +1495,9 @@ let abc = {
     <tr id='' creature-id='${creature._id}' token-id='${creature.tokenId}'>
       <td id='creature-table-name-${creature.tokenId}' class='creature-table-name'>${creature.name}</td>
       <td id=''><input class='form-control creature-table-hp-input' creature-id='${creature._id}' type='number' value='${creature.hp}'></td>
+      <td id=''><input class='form-control' creature-id='${creature._id}' type='number' value='${creature.ac}'></td>
+      <td id=''><input class='form-control' creature-id='${creature._id}' type='number' value='${creature.will}'></td>
+      <td id=''><input class='form-control' creature-id='${creature._id}' type='number' value='${creature.reflex}'></td>
       <td id=''><input class='form-control creature-table-status'></td>
       <td><button class='btn btn-sm ct-remove' token-id='${creature.tokenId}'><i class='glyphicon glyphicon-minus'></i></button></td>
     </tr>`
@@ -1512,9 +1515,6 @@ let abc = {
 
       creature.hp = val
     })
-
-    // $("#myElement").unbind('mouseenter mouseleave');
-    // $('#myElement').off('hover');
 
     $("#creature-table tr").hover(e => {
 

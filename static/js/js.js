@@ -37,10 +37,7 @@ var abc = {
       }
 
       $.when.apply($, abc.retrieveInitialModels()).done(function () {
-        // abc.fillTopDrawer()
         abc.fillRightDrawer();
-        // abc.fillLeftDrawer()
-        // abc.fillBottomDrawer()
       });
 
       abc.addPlayerCursorDivs();
@@ -64,7 +61,7 @@ var abc = {
   },
 
   updateCursorImage: function updateCursorImage(emitObj) {
-    console.log(emitObj);
+    // console.log(emitObj)
     if (abc.cursorDelay === 10) {
       $("#cursor-" + emitObj.playerId).css("top", emitObj.y).css("left", emitObj.x);
       abc.cursorDelay = 0;
@@ -1046,7 +1043,7 @@ var abc = {
   createCreatureTableHtml: function createCreatureTableHtml() {
     var htmlString = "";
 
-    htmlString += "\n    <div id='creature-table-container'>\n      <button id='remove-creature-table' class='btn btn-md'><i class='glyphicon glyphicon-minus'></i></button>\n\n      <table id='creature-table' class='table-condensed'>\n        <tr id='ct-header-row'>\n          <th>Name</th>\n          <th>HP</th>\n          <th>Status</th>\n          <th></th>\n        </tr>\n      </table>\n\n    </div>";
+    htmlString += "\n    <div id='creature-table-container'>\n      <button id='remove-creature-table' class='btn btn-md'><i class='glyphicon glyphicon-minus'></i></button>\n\n      <table id='creature-table' class='table-condensed'>\n        <tr id='ct-header-row'>\n          <th>Name</th>\n          <th>HP</th>\n          <th>AC</th>\n          <th>Will</th>\n          <th>Reflex</th>\n          <th>Status</th>\n          <th></th>\n        </tr>\n      </table>\n\n    </div>";
 
     return htmlString;
   },
@@ -1062,7 +1059,7 @@ var abc = {
   addCreatureToCreatureTable: function addCreatureToCreatureTable(creature) {
     var htmlString = "";
 
-    htmlString += "\n    <tr id='' creature-id='" + creature._id + "' token-id='" + creature.tokenId + "'>\n      <td id='creature-table-name-" + creature.tokenId + "' class='creature-table-name'>" + creature.name + "</td>\n      <td id=''><input class='form-control creature-table-hp-input' creature-id='" + creature._id + "' type='number' value='" + creature.hp + "'></td>\n      <td id=''><input class='form-control creature-table-status'></td>\n      <td><button class='btn btn-sm ct-remove' token-id='" + creature.tokenId + "'><i class='glyphicon glyphicon-minus'></i></button></td>\n    </tr>";
+    htmlString += "\n    <tr id='' creature-id='" + creature._id + "' token-id='" + creature.tokenId + "'>\n      <td id='creature-table-name-" + creature.tokenId + "' class='creature-table-name'>" + creature.name + "</td>\n      <td id=''><input class='form-control creature-table-hp-input' creature-id='" + creature._id + "' type='number' value='" + creature.hp + "'></td>\n      <td id=''><input class='form-control' creature-id='" + creature._id + "' type='number' value='" + creature.ac + "'></td>\n      <td id=''><input class='form-control' creature-id='" + creature._id + "' type='number' value='" + creature.will + "'></td>\n      <td id=''><input class='form-control' creature-id='" + creature._id + "' type='number' value='" + creature.reflex + "'></td>\n      <td id=''><input class='form-control creature-table-status'></td>\n      <td><button class='btn btn-sm ct-remove' token-id='" + creature.tokenId + "'><i class='glyphicon glyphicon-minus'></i></button></td>\n    </tr>";
 
     $('#creature-table').append(htmlString);
 
@@ -1077,9 +1074,6 @@ var abc = {
 
       creature.hp = val;
     });
-
-    // $("#myElement").unbind('mouseenter mouseleave');
-    // $('#myElement').off('hover');
 
     $("#creature-table tr").hover(function (e) {
 
