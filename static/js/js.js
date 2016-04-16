@@ -50,8 +50,8 @@ var abc = {
       });
 
       document.onmousemove = function (e) {
-        abc.mouseX = clientX;
-        abc.mouseY = clientY;
+        abc.mouseX = e.clientX;
+        abc.mouseY = e.clientY;
       };
     } catch (e) {
       console.log("error parsing authentication data: " + e);

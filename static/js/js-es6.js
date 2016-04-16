@@ -50,8 +50,8 @@ let abc = {
       })
 
       document.onmousemove = e => {
-        abc.mouseX = clientX
-        abc.mouseY = clientY
+        abc.mouseX = e.clientX
+        abc.mouseY = e.clientY
       }
 
     } catch(e) {
