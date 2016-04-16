@@ -246,7 +246,7 @@ let abc = {
       if(obj.event === 'remove-token') {
         abc.removeToken(obj.tokenId)
       }
-
+ 
     })
   },
 
