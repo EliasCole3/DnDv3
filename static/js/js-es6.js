@@ -476,7 +476,7 @@ let abc = {
     })
 
     $("#old-character-sheets").click(e => {
-      //one of the new windows with all the stuff that went into the top drawer
+      // one of the new windows with all the stuff that went into the top drawer
       // ebot.showModal("Helpful Info", abc.viewHelpfulInfo())
 
       let options = {
@@ -1451,17 +1451,23 @@ let abc = {
 
 
   createCreatureTable: () => {
-    $('#wrapper').append(abc.createCreatureTableHtml())
+    // $('#wrapper').append(abc.createCreatureTableHtml())
+    let options = {
+      windowId: 'creature-table', 
+      content: abc.getCreatureTableWindowContent(),
+      width: '550px',
+      height: '300px'
+    }
+    abc.createWindow(options)
     abc.handlerCreatureTable()
     abc.creatureTableCreated = true
   },
 
-  createCreatureTableHtml: () => {
+  // createCreatureTableHtml: () => {
+  getCreatureTableWindowContent: () => {
     let htmlString = ``
 
     htmlString += `
-    <div id='creature-table-container'>
-      <button id='remove-creature-table' class='btn btn-md'><i class='glyphicon glyphicon-minus'></i></button>
 
       <table id='creature-table' class='table-condensed'>
         <tr id='ct-header-row'>
@@ -1474,18 +1480,13 @@ let abc = {
           <th></th>
         </tr>
       </table>
-
-    </div>`
+      `
 
     return htmlString
   },
 
   handlerCreatureTable: () => {
-    $('#creature-table-container').draggable().resizable()
 
-    $("#remove-creature-table").click(e => {
-      $('#creature-table-container').remove()
-    })
   },
 
   addCreatureToCreatureTable: creature => {

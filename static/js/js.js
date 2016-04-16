@@ -370,7 +370,7 @@ var abc = {
     });
 
     $("#old-character-sheets").click(function (e) {
-      //one of the new windows with all the stuff that went into the top drawer
+      // one of the new windows with all the stuff that went into the top drawer
       // ebot.showModal("Helpful Info", abc.viewHelpfulInfo())
 
       var options = {
@@ -1035,26 +1035,28 @@ var abc = {
   },
 
   createCreatureTable: function createCreatureTable() {
-    $('#wrapper').append(abc.createCreatureTableHtml());
+    // $('#wrapper').append(abc.createCreatureTableHtml())
+    var options = {
+      windowId: 'creature-table',
+      content: abc.getCreatureTableWindowContent(),
+      width: '550px',
+      height: '300px'
+    };
+    abc.createWindow(options);
     abc.handlerCreatureTable();
     abc.creatureTableCreated = true;
   },
 
-  createCreatureTableHtml: function createCreatureTableHtml() {
+  // createCreatureTableHtml: () => {
+  getCreatureTableWindowContent: function getCreatureTableWindowContent() {
     var htmlString = "";
 
-    htmlString += "\n    <div id='creature-table-container'>\n      <button id='remove-creature-table' class='btn btn-md'><i class='glyphicon glyphicon-minus'></i></button>\n\n      <table id='creature-table' class='table-condensed'>\n        <tr id='ct-header-row'>\n          <th>Name</th>\n          <th>HP</th>\n          <th>AC</th>\n          <th>Will</th>\n          <th>Reflex</th>\n          <th>Status</th>\n          <th></th>\n        </tr>\n      </table>\n\n    </div>";
+    htmlString += "\n\n      <table id='creature-table' class='table-condensed'>\n        <tr id='ct-header-row'>\n          <th>Name</th>\n          <th>HP</th>\n          <th>AC</th>\n          <th>Will</th>\n          <th>Reflex</th>\n          <th>Status</th>\n          <th></th>\n        </tr>\n      </table>\n      ";
 
     return htmlString;
   },
 
-  handlerCreatureTable: function handlerCreatureTable() {
-    $('#creature-table-container').draggable().resizable();
-
-    $("#remove-creature-table").click(function (e) {
-      $('#creature-table-container').remove();
-    });
-  },
+  handlerCreatureTable: function handlerCreatureTable() {},
 
   addCreatureToCreatureTable: function addCreatureToCreatureTable(creature) {
     var htmlString = "";
