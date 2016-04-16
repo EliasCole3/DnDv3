@@ -43,6 +43,11 @@ var abc = {
       abc.addPlayerCursorDivs();
 
       abc.handlerMouseMove();
+
+      var listener = new window.keypress.Listener();
+      listener.simple_combo('alt d', function () {
+        console.log(document.elementFromPoint);
+      });
     } catch (e) {
       console.log("error parsing authentication data: " + e);
     }
