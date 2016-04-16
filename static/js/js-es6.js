@@ -1189,8 +1189,6 @@ let abc = {
   },
 
   addTokenPlayerCharacter: (imageFilename, top, left) => {
-    console.log(top)
-    console.log(left)
     let id = `dynamically-added-div-${abc.currentDynamicDivId}`
     let htmlString = `<div id='${id}' class='token' style='position:absolute; top:${top}px; left:${left}px; width: 50px; height: 50px;'><img src='images/player-characters/${imageFilename}'></div>`
     $("#wrapper").append(htmlString)
