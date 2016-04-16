@@ -41,24 +41,38 @@ let abc = {
       })
 
       abc.addPlayerCursorDivs()
-
+      abc.trackMouse()
       abc.handlerMouseMove()
 
       let listener = new window.keypress.Listener()
       listener.simple_combo('alt d', () => {
-        console.log(document.elementFromPoint(abc.mouseX, abc.mouseY))
+        let theElementTheMouseIsOver = document.elementFromPoint(abc.mouseX, abc.mouseY)
+        if(theElementTheMouseIsOver.hasAttribute('token-id')) {
+          let tokenId = theElementTheMouseIsOver.getAttribute('token-id')
+          abc.toSocket({
+            event: 'remove-token',
+            tokenId: tokenId
+          })
+          if(abc.creatureTableCreated) {
+            $(`tr[token-id=${tokenId}]`).remove()
+          }
+        }
       })
 
-      document.onmousemove = e => {
-        abc.mouseX = e.clientX
-        abc.mouseY = e.clientY
-      }
+      
 
     } catch(e) {
       console.log(`error parsing authentication data: ${e}`)
     }
 
 	  
+  },
+
+  trackMouse: () => {
+    document.onmousemove = e => {
+      abc.mouseX = e.clientX
+      abc.mouseY = e.clientY
+    }
   },
 
 
@@ -180,8 +194,6 @@ let abc = {
     abc.socket.on('core', obj => {
       //branching logic based on what is in the object
 
-      // console.log(obj)
-
       if(obj.event === "create-turn-counter") {
         abc.createTurnCounter()
       }
@@ -219,36 +231,6 @@ let abc = {
       }
 
       if(obj.event === "message") {
-        // console.log('message received: ')
-        // console.log(obj)
-        if(!obj.message) return
-
-        if(!abc.messageWindowCreated) abc.createMessageWindow()
-
-        // if the player is sending a message to all, use their name
-        if(obj.to === 'all') {
-          $('#messages-from-all').append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
-        }
-
-        // if a message was received intented for the player, add that message to the tab belonging to the sender
-        if(obj.to === abc.currentPlayerName) {
-          $(`#messages-from-${obj.from}`).append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
-        }
-
-        // if the player sent the message and it wasn't going to the all channel, add the sender's message to the channel, so they can see what they said
-        if(obj.from === abc.currentPlayerName && obj.to !== 'all') {
-          $(`#messages-from-${obj.to}`).append(`<li class='message-li'><b>Me</b>: ${obj.message}</li>`)
-        }
-
-        // if the message isn't coming from the current player, add a star to the tab of whoever sent it
-        if(obj.from !== abc.currentPlayerName) {
-          $(`#tab-${obj.from}`).html(`<b>***${obj.from.capitalize()}***</b>`)
-        }
-
-        // $(`#messages-from-${obj.from}`).scrollTop(100000)
-        $('.message-ul-wrapper').scrollTop(100000)
-        // let div = document.getElementById(`messages-from-${obj.from}`)
-        // div.scrollTop = div.scrollHeight - div.clientHeight
 
       }
 
@@ -261,9 +243,42 @@ let abc = {
         abc.recreateTokens(obj.data)
       }
 
-
+      if(obj.event === 'remove-token') {
+        abc.removeToken(obj.tokenId)
+      }
 
     })
+  },
+
+  handleMessage: obj => {
+    // console.log('message received: ')
+    // console.log(obj)
+    if(!obj.message) return
+
+    if(!abc.messageWindowCreated) abc.createMessageWindow()
+
+    // if the player is sending a message to all, use their name
+    if(obj.to === 'all') {
+      $('#messages-from-all').append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
+    }
+
+    // if a message was received intented for the player, add that message to the tab belonging to the sender
+    if(obj.to === abc.currentPlayerName) {
+      $(`#messages-from-${obj.from}`).append(`<li class='message-li'><b>${obj.from.capitalize()}</b>: ${obj.message}</li>`)
+    }
+
+    // if the player sent the message and it wasn't going to the all channel, add the sender's message to the channel, so they can see what they said
+    if(obj.from === abc.currentPlayerName && obj.to !== 'all') {
+      $(`#messages-from-${obj.to}`).append(`<li class='message-li'><b>Me</b>: ${obj.message}</li>`)
+    }
+
+    // if the message isn't coming from the current player, add a star to the tab of whoever sent it
+    if(obj.from !== abc.currentPlayerName) {
+      $(`#tab-${obj.from}`).html(`<b>***${obj.from.capitalize()}***</b>`)
+    }
+    
+    // hacky way of scrolling to the bottom of the div when a new message is added
+    $('.message-ul-wrapper').scrollTop(100000)
   },
 
   clearAllTokens: () => {
