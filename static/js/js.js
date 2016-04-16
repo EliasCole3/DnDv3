@@ -46,8 +46,13 @@ var abc = {
 
       var listener = new window.keypress.Listener();
       listener.simple_combo('alt d', function () {
-        console.log(document.elementFromPoint());
+        console.log(document.elementFromPoint(abc.mouseX, abc.mouseY));
       });
+
+      document.onmousemove = function (e) {
+        abc.mouseX = clientX;
+        abc.mouseY = clientY;
+      };
     } catch (e) {
       console.log("error parsing authentication data: " + e);
     }
@@ -1287,7 +1292,11 @@ var abc = {
 
   doNotInclude: ['npc', 'Ryland'],
 
-  activeTokens: []
+  activeTokens: [],
+
+  mouseX: 0,
+
+  mouseY: 0
 
 };
 //# sourceMappingURL=js.js.map

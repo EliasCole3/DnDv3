@@ -46,8 +46,13 @@ let abc = {
 
       let listener = new window.keypress.Listener()
       listener.simple_combo('alt d', () => {
-        console.log(document.elementFromPoint())
+        console.log(document.elementFromPoint(abc.mouseX, abc.mouseY))
       })
+
+      document.onmousemove = e => {
+        abc.mouseX = clientX
+        abc.mouseY = clientY
+      }
 
     } catch(e) {
       console.log(`error parsing authentication data: ${e}`)
@@ -1730,7 +1735,11 @@ let abc = {
 
   doNotInclude: ['npc', 'Ryland'],
 
-  activeTokens: []
+  activeTokens: [],
+
+  mouseX: 0,
+
+  mouseY: 0
 
 }
 
