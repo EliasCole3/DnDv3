@@ -46,7 +46,7 @@ let abc = {
 
       let listener = new window.keypress.Listener()
       listener.simple_combo('alt d', () => {
-        console.log(document.elementFromPoint)
+        console.log(document.elementFromPoint())
       })
 
     } catch(e) {

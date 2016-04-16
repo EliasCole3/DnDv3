@@ -46,7 +46,7 @@ var abc = {
 
       var listener = new window.keypress.Listener();
       listener.simple_combo('alt d', function () {
-        console.log(document.elementFromPoint);
+        console.log(document.elementFromPoint());
       });
     } catch (e) {
       console.log("error parsing authentication data: " + e);
